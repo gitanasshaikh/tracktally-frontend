@@ -1,0 +1,1299 @@
+/* =========================================================
+   ADMIN FEEDBACK
+   CLEAN RESPONSIVE LAYOUT
+   ========================================================= */
+
+
+/* =========================================================
+   ROOT PAGE
+
+   IMPORTANT:
+   Navbar already occupies the left side.
+   This page ONLY controls its own content.
+   ========================================================= */
+
+.admin-feedback-root {
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box;
+
+    background: transparent;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+
+   FIXED CONTENT WIDTH
+   ========================================================= */
+
+.admin-feedback-wrapper {
+
+    width: min(820px, calc(100% - 48px));
+
+    margin: 0 auto;
+
+    padding: 48px 0 70px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.admin-feedback-header {
+
+    width: 100%;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 30px;
+}
+
+
+.admin-feedback-eyebrow {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #a78bfa;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.admin-feedback-header h1 {
+
+    margin: 0;
+
+    color: #f8fafc;
+
+    font-size: clamp(28px, 4vw, 40px);
+
+    line-height: 1.15;
+}
+
+
+.admin-feedback-header p {
+
+    margin: 10px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   TOTAL COUNT
+   ========================================================= */
+
+.admin-feedback-count {
+
+    flex-shrink: 0;
+
+    min-width: 75px;
+
+    padding: 12px 15px;
+
+    text-align: center;
+
+    border: 1px solid rgba(139, 92, 246, 0.28);
+
+    border-radius: 12px;
+
+    background: #151d31;
+}
+
+
+.admin-feedback-count span {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+
+.admin-feedback-count strong {
+
+    color: #c4b5fd;
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   FEEDBACK LIST
+
+   ALWAYS ONE COLUMN
+   ========================================================= */
+
+.admin-feedback-list {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   FEEDBACK CARD
+
+   NOT FULL SCREEN
+   ========================================================= */
+
+.admin-feedback-card {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 22px;
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(139, 92, 246, 0.30);
+
+    background: #151d31;
+
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.20);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD TOP
+   ========================================================= */
+
+.admin-card-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 18px;
+
+    border-bottom:
+        1px solid rgba(148, 163, 184, 0.12);
+}
+
+
+.admin-card-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #e2e8f0;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   RATING
+   ========================================================= */
+
+.admin-rating {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.admin-stars {
+
+    color: #fbbf24;
+
+    font-size: 20px;
+
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+}
+
+
+.admin-rating-number {
+
+    padding: 6px 9px;
+
+    border-radius: 8px;
+
+    background: rgba(124, 58, 237, 0.15);
+
+    color: #c4b5fd;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
+
+.admin-delete-button {
+
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(248, 113, 113, 0.25);
+
+    border-radius: 11px;
+
+    background: rgba(127, 29, 29, 0.12);
+
+    color: #fca5a5;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease;
+}
+
+
+.admin-delete-button:hover {
+
+    transform: translateY(-2px);
+
+    background: rgba(220, 38, 38, 0.20);
+
+    border-color:
+        rgba(248, 113, 113, 0.50);
+}
+
+
+.admin-delete-button:active {
+
+    transform: scale(0.95);
+}
+
+
+/* =========================================================
+   FEEDBACK CONTENT
+   ========================================================= */
+
+.admin-feedback-content {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+
+/* =========================================================
+   INDIVIDUAL SECTION
+   ========================================================= */
+
+.admin-feedback-block {
+
+    box-sizing: border-box;
+
+    padding: 17px 18px;
+
+    border-radius: 13px;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.11);
+
+    background: #1b253b;
+}
+
+
+.admin-feedback-block span {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #b794ff;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.9px;
+}
+
+
+.admin-feedback-block p {
+
+    margin: 0;
+
+    color: #e2e8f0;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+   ========================================================= */
+
+.admin-card-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 18px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid rgba(148, 163, 184, 0.11);
+}
+
+
+.admin-card-footer span {
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+.admin-card-footer strong {
+
+    padding: 5px 9px;
+
+    border-radius: 7px;
+
+    background: rgba(124, 58, 237, 0.12);
+
+    color: #a78bfa;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.admin-feedback-empty {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 45px 25px;
+
+    text-align: center;
+
+    border: 1px solid rgba(139, 92, 246, 0.25);
+
+    border-radius: 18px;
+
+    background: #151d31;
+}
+
+
+.admin-empty-icon {
+
+    font-size: 34px;
+
+    margin-bottom: 12px;
+}
+
+
+.admin-feedback-empty h2 {
+
+    margin: 0;
+
+    color: #f8fafc;
+
+    font-size: 21px;
+}
+
+
+.admin-feedback-empty p {
+
+    max-width: 450px;
+
+    margin: 10px auto 0;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   LOADING / ERROR
+   ========================================================= */
+
+.admin-feedback-state {
+
+    width: 100%;
+
+    min-height: 300px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #94a3b8;
+}
+
+
+.admin-feedback-state h2 {
+
+    margin: 10px 0 0;
+
+    color: #f8fafc;
+}
+
+
+.admin-feedback-state p {
+
+    margin: 7px 0 0;
+}
+
+
+.admin-state-icon {
+
+    font-size: 35px;
+}
+
+
+.admin-spinner {
+
+    width: 34px;
+    height: 34px;
+
+    border: 3px solid rgba(167, 139, 250, 0.20);
+
+    border-top-color: #a78bfa;
+
+    border-radius: 50%;
+
+    animation: admin-spin 0.8s linear infinite;
+}
+
+
+@keyframes admin-spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   DELETE MODAL OVERLAY
+
+   FIXED TO ENTIRE SCREEN
+   ========================================================= */
+
+.admin-modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    background: rgba(2, 6, 23, 0.74);
+
+    backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   DELETE MODAL
+   ========================================================= */
+
+.admin-delete-modal {
+
+    width: min(420px, 100%);
+
+    box-sizing: border-box;
+
+    padding: 27px;
+
+    border-radius: 18px;
+
+    border:
+        1px solid rgba(248, 113, 113, 0.25);
+
+    background: #151d31;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.50);
+
+    animation:
+        admin-modal-in 0.18s ease-out;
+}
+
+
+@keyframes admin-modal-in {
+
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+}
+
+
+.admin-modal-icon {
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 17px;
+
+    border-radius: 11px;
+
+    background: rgba(220, 38, 38, 0.12);
+
+    color: #f87171;
+
+    font-size: 19px;
+}
+
+
+.admin-delete-modal h2 {
+
+    margin: 0;
+
+    color: #f8fafc;
+
+    font-size: 22px;
+}
+
+
+.admin-delete-modal p {
+
+    margin: 10px 0 16px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.admin-modal-id {
+
+    display: inline-block;
+
+    padding: 6px 9px;
+
+    border-radius: 7px;
+
+    background: rgba(124, 58, 237, 0.12);
+
+    color: #a78bfa;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   MODAL BUTTONS
+   ========================================================= */
+
+.admin-modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+
+.admin-cancel-button,
+.admin-confirm-button {
+
+    min-width: 100px;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+
+
+.admin-cancel-button {
+
+    border:
+        1px solid rgba(148, 163, 184, 0.20);
+
+    background: transparent;
+
+    color: #cbd5e1;
+}
+
+
+.admin-cancel-button:hover {
+
+    background:
+        rgba(148, 163, 184, 0.08);
+}
+
+
+.admin-confirm-button {
+
+    border:
+        1px solid rgba(248, 113, 113, 0.30);
+
+    background:
+        rgba(220, 38, 38, 0.14);
+
+    color: #fca5a5;
+}
+
+
+.admin-confirm-button:hover {
+
+    background:
+        rgba(220, 38, 38, 0.24);
+}
+
+
+.admin-cancel-button:active,
+.admin-confirm-button:active {
+
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+.admin-toast {
+
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    z-index: 100000;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    max-width: min(360px, calc(100vw - 30px));
+
+    padding: 13px 17px;
+
+    box-sizing: border-box;
+
+    border-radius: 12px;
+
+    background: #151d31;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.35);
+
+    color: #f8fafc;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    animation:
+        admin-toast-in 0.2s ease-out;
+}
+
+
+.admin-toast-icon {
+
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+
+.admin-toast-success {
+
+    border:
+        1px solid rgba(74, 222, 128, 0.25);
+}
+
+
+.admin-toast-success .admin-toast-icon {
+
+    background: rgba(34, 197, 94, 0.16);
+
+    color: #4ade80;
+}
+
+
+.admin-toast-error {
+
+    border:
+        1px solid rgba(248, 113, 113, 0.25);
+}
+
+
+.admin-toast-error .admin-toast-icon {
+
+    background: rgba(239, 68, 68, 0.16);
+
+    color: #f87171;
+}
+
+
+@keyframes admin-toast-in {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .admin-feedback-wrapper {
+
+        width: min(700px, calc(100% - 36px));
+
+        padding-top: 35px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .admin-feedback-wrapper {
+
+        width: calc(100% - 24px);
+
+        padding-top: 25px;
+        padding-bottom: 45px;
+
+    }
+
+
+    .admin-feedback-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 18px;
+
+        margin-bottom: 22px;
+
+    }
+
+
+    .admin-feedback-header h1 {
+
+        font-size: 30px;
+
+    }
+
+
+    .admin-feedback-count {
+
+        align-self: flex-start;
+
+    }
+
+
+    .admin-feedback-card {
+
+        padding: 16px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .admin-card-top {
+
+        align-items: flex-start;
+
+    }
+
+
+    .admin-stars {
+
+        font-size: 17px;
+
+    }
+
+
+    .admin-delete-button {
+
+        width: 40px;
+        height: 40px;
+
+    }
+
+
+    .admin-feedback-block {
+
+        padding: 14px;
+
+    }
+
+
+    .admin-modal-actions {
+
+        flex-direction: column-reverse;
+
+    }
+
+
+    .admin-cancel-button,
+    .admin-confirm-button {
+
+        width: 100%;
+
+    }
+
+
+    .admin-toast {
+
+        left: 12px;
+        right: 12px;
+        bottom: 15px;
+
+        max-width: none;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .admin-feedback-wrapper {
+
+        width: calc(100% - 18px);
+
+    }
+
+
+    .admin-feedback-card {
+
+        padding: 13px;
+
+    }
+
+
+    .admin-feedback-header h1 {
+
+        font-size: 26px;
+
+    }
+
+}
+
+
+
+
+/* =========================================================
+   LIGHT / DARK MODE FIX
+   ONLY COLORS - NO LAYOUT CHANGES
+   ========================================================= */
+
+
+/* =========================================================
+   LIGHT MODE
+   ========================================================= */
+
+html[data-theme="light"] .admin-feedback-root {
+    background: transparent;
+}
+
+
+/* HEADER */
+
+html[data-theme="light"] .admin-feedback-header h1 {
+    color: #172033;
+}
+
+html[data-theme="light"] .admin-feedback-header p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .admin-feedback-eyebrow {
+    color: #8b5cf6;
+}
+
+
+/* TOTAL COUNT */
+
+html[data-theme="light"] .admin-feedback-count {
+    background: #ffffff;
+    border-color: #d9def0;
+    box-shadow: 0 8px 22px rgba(30, 41, 59, 0.08);
+}
+
+html[data-theme="light"] .admin-feedback-count span {
+    color: #64748b;
+}
+
+html[data-theme="light"] .admin-feedback-count strong {
+    color: #6d4aff;
+}
+
+
+/* FEEDBACK CARD */
+
+html[data-theme="light"] .admin-feedback-card {
+    background: #ffffff;
+    border-color: #d9def0;
+
+    box-shadow:
+        0 10px 28px rgba(30, 41, 59, 0.10);
+}
+
+
+/* CARD HEADER */
+
+html[data-theme="light"] .admin-card-top {
+    border-bottom-color: #e5e7eb;
+}
+
+html[data-theme="light"] .admin-card-label {
+    color: #334155;
+}
+
+
+/* RATING */
+
+html[data-theme="light"] .admin-rating-number {
+    background: #eeeafd;
+    color: #6d4aff;
+}
+
+
+/* FEEDBACK SECTIONS */
+
+html[data-theme="light"] .admin-feedback-block {
+    background: #f4f6fb;
+    border-color: #e0e5f0;
+}
+
+html[data-theme="light"] .admin-feedback-block span {
+    color: #7c3aed;
+}
+
+html[data-theme="light"] .admin-feedback-block p {
+    color: #334155;
+}
+
+
+/* CARD FOOTER */
+
+html[data-theme="light"] .admin-card-footer {
+    border-top-color: #e5e7eb;
+}
+
+html[data-theme="light"] .admin-card-footer span {
+    color: #64748b;
+}
+
+html[data-theme="light"] .admin-card-footer strong {
+    background: #eeeafd;
+    color: #6d4aff;
+}
+
+
+/* EMPTY STATE */
+
+html[data-theme="light"] .admin-feedback-empty {
+    background: #ffffff;
+    border-color: #d9def0;
+    box-shadow: 0 10px 28px rgba(30, 41, 59, 0.08);
+}
+
+html[data-theme="light"] .admin-feedback-empty h2 {
+    color: #172033;
+}
+
+html[data-theme="light"] .admin-feedback-empty p {
+    color: #64748b;
+}
+
+
+/* LOADING / ERROR */
+
+html[data-theme="light"] .admin-feedback-state {
+    color: #64748b;
+}
+
+html[data-theme="light"] .admin-feedback-state h2 {
+    color: #172033;
+}
+
+
+/* DELETE MODAL */
+
+html[data-theme="light"] .admin-delete-modal {
+    background: #ffffff;
+    border-color: rgba(220, 38, 38, 0.20);
+
+    box-shadow:
+        0 25px 70px rgba(30, 41, 59, 0.22);
+}
+
+html[data-theme="light"] .admin-delete-modal h2 {
+    color: #172033;
+}
+
+html[data-theme="light"] .admin-delete-modal p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .admin-modal-id {
+    background: #eeeafd;
+    color: #6d4aff;
+}
+
+
+/* MODAL BUTTONS */
+
+html[data-theme="light"] .admin-cancel-button {
+    border-color: #d8dee9;
+    background: #f8fafc;
+    color: #334155;
+}
+
+html[data-theme="light"] .admin-cancel-button:hover {
+    background: #eef2f7;
+}
+
+html[data-theme="light"] .admin-confirm-button {
+    background: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+    border-color: rgba(220, 38, 38, 0.22);
+}
+
+html[data-theme="light"] .admin-confirm-button:hover {
+    background: rgba(220, 38, 38, 0.14);
+}
+
+
+/* TOAST */
+
+html[data-theme="light"] .admin-toast {
+    background: #ffffff;
+    color: #172033;
+
+    box-shadow:
+        0 15px 35px rgba(30, 41, 59, 0.18);
+}
+
+
+/* =========================================================
+   DARK MODE
+   KEEP YOUR EXISTING DARK UI
+   ========================================================= */
+
+html[data-theme="dark"] .admin-feedback-header h1 {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .admin-feedback-header p {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .admin-feedback-count {
+    background: #151d31;
+}
+
+html[data-theme="dark"] .admin-feedback-card {
+    background: #151d31;
+}
+
+html[data-theme="dark"] .admin-feedback-block {
+    background: #1b253b;
+}
+
+html[data-theme="dark"] .admin-feedback-block p {
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .admin-card-label {
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .admin-card-footer span {
+    color: #64748b;
+}
+
+html[data-theme="dark"] .admin-feedback-empty {
+    background: #151d31;
+}
+
+html[data-theme="dark"] .admin-feedback-empty h2 {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .admin-feedback-empty p {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .admin-delete-modal {
+    background: #151d31;
+}
+
+html[data-theme="dark"] .admin-delete-modal h2 {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .admin-delete-modal p {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .admin-toast {
+    background: #151d31;
+    color: #f8fafc;
+}

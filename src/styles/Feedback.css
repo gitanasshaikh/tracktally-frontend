@@ -1,0 +1,1186 @@
+/* =========================================================
+   TRACKTALLY - FEEDBACK PAGE
+   FINAL LIGHT + DARK THEME
+   FULLY RESPONSIVE
+========================================================= */
+
+
+/* =========================================================
+   FEEDBACK PAGE
+========================================================= */
+
+.feedback-page {
+
+    width: 100%;
+    min-height: 100%;
+
+    padding: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    box-sizing: border-box;
+
+    background: #f8fafc;
+
+    color: #111827;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+
+/* =========================================================
+   FEEDBACK CARD - LIGHT
+========================================================= */
+
+.feedback-card {
+
+    width: 100%;
+    max-width: 760px;
+
+    padding: 36px;
+
+    box-sizing: border-box;
+
+    border-radius: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, 0.08);
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.feedback-header {
+
+    margin-bottom: 30px;
+
+}
+
+
+.feedback-eyebrow {
+
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #8b5cf6;
+
+}
+
+
+.feedback-header h2 {
+
+    margin: 0 0 10px;
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+    color: #111827;
+
+}
+
+
+.feedback-header p {
+
+    margin: 0;
+
+    max-width: 620px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    color: #6b7280;
+
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.feedback-form {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 25px;
+
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.feedback-field {
+
+    width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+}
+
+
+.feedback-field label {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+}
+
+
+/* =========================================================
+   TEXTAREA - LIGHT
+========================================================= */
+
+.feedback-field textarea {
+
+    width: 100%;
+
+    min-height: 110px;
+
+    padding: 14px 16px;
+
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    border-radius: 14px;
+
+    border: 1px solid #d1d5db;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    outline: none;
+
+    caret-color: #8b5cf6;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.feedback-field textarea::placeholder {
+
+    color: #9ca3af;
+
+}
+
+
+.feedback-field textarea:focus {
+
+    border-color: #8b5cf6;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(139, 92, 246, 0.12);
+
+}
+
+
+/* =========================================================
+   CHARACTER COUNT
+========================================================= */
+
+.feedback-field small {
+
+    align-self: flex-end;
+
+    margin-top: -4px;
+
+    font-size: 11px;
+
+    color: #9ca3af;
+
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.rating-options {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 3px;
+
+}
+
+
+.rating-star {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #f3f4f6;
+
+    color: #9ca3af;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+
+}
+
+
+.rating-star:hover {
+
+    transform: translateY(-2px);
+
+    color: #8b5cf6;
+
+}
+
+
+.rating-star.active {
+
+    color: #8b5cf6;
+
+    background:
+        rgba(139, 92, 246, 0.12);
+
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.feedback-actions {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 5px;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.feedback-cancel-button,
+.feedback-submit-button {
+
+    min-height: 46px;
+
+    padding: 0 20px;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+/* =========================================================
+   CANCEL
+========================================================= */
+
+.feedback-cancel-button {
+
+    border: 1px solid #d1d5db;
+
+    background: transparent;
+
+    color: #111827;
+
+}
+
+
+.feedback-cancel-button:hover {
+
+    background: #f3f4f6;
+
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.feedback-submit-button {
+
+    border: none;
+
+    background: #8b5cf6;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 8px 20px
+        rgba(139, 92, 246, 0.22);
+
+}
+
+
+.feedback-submit-button:hover {
+
+    transform: translateY(-1px);
+
+    background: #7c3aed;
+
+    box-shadow:
+        0 10px 25px
+        rgba(139, 92, 246, 0.30);
+
+}
+
+
+.feedback-submit-button:disabled,
+.feedback-cancel-button:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+/* =========================================================
+   =========================================================
+   DARK THEME
+   =========================================================
+   Supports:
+   body.dark
+   html.dark
+   .dark
+   [data-theme="dark"]
+   =========================================================
+========================================================= */
+
+
+/* PAGE */
+
+body.dark .feedback-page,
+html.dark .feedback-page,
+.dark .feedback-page,
+[data-theme="dark"] .feedback-page {
+
+    background: #0f172a;
+
+    color: #f8fafc;
+
+}
+
+
+/* CARD */
+
+body.dark .feedback-card,
+html.dark .feedback-card,
+.dark .feedback-card,
+[data-theme="dark"] .feedback-card {
+
+    background: #1e293b;
+
+    border-color: #334155;
+
+    box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.30);
+
+}
+
+
+/* HEADER */
+
+body.dark .feedback-header h2,
+html.dark .feedback-header h2,
+.dark .feedback-header h2,
+[data-theme="dark"] .feedback-header h2 {
+
+    color: #f8fafc;
+
+}
+
+
+body.dark .feedback-header p,
+html.dark .feedback-header p,
+.dark .feedback-header p,
+[data-theme="dark"] .feedback-header p {
+
+    color: #94a3b8;
+
+}
+
+
+/* LABEL */
+
+body.dark .feedback-field label,
+html.dark .feedback-field label,
+.dark .feedback-field label,
+[data-theme="dark"] .feedback-field label {
+
+    color: #f1f5f9;
+
+}
+
+
+/* =========================================================
+   DARK TEXTAREA
+========================================================= */
+
+body.dark .feedback-field textarea,
+html.dark .feedback-field textarea,
+.dark .feedback-field textarea,
+[data-theme="dark"] .feedback-field textarea {
+
+    background: #0f172a;
+
+    border-color: #334155;
+
+    color: #f8fafc;
+
+    caret-color: #a78bfa;
+
+}
+
+
+body.dark .feedback-field textarea::placeholder,
+html.dark .feedback-field textarea::placeholder,
+.dark .feedback-field textarea::placeholder,
+[data-theme="dark"] .feedback-field textarea::placeholder {
+
+    color: #64748b;
+
+}
+
+
+body.dark .feedback-field textarea:focus,
+html.dark .feedback-field textarea:focus,
+.dark .feedback-field textarea:focus,
+[data-theme="dark"] .feedback-field textarea:focus {
+
+    background: #0b1220;
+
+    border-color: #8b5cf6;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(139, 92, 246, 0.20);
+
+}
+
+
+/* CHARACTER COUNT */
+
+body.dark .feedback-field small,
+html.dark .feedback-field small,
+.dark .feedback-field small,
+[data-theme="dark"] .feedback-field small {
+
+    color: #64748b;
+
+}
+
+
+/* =========================================================
+   DARK RATING
+========================================================= */
+
+body.dark .rating-star,
+html.dark .rating-star,
+.dark .rating-star,
+[data-theme="dark"] .rating-star {
+
+    background: #0f172a;
+
+    color: #64748b;
+
+}
+
+
+body.dark .rating-star:hover,
+html.dark .rating-star:hover,
+.dark .rating-star:hover,
+[data-theme="dark"] .rating-star:hover {
+
+    color: #a78bfa;
+
+    background:
+        rgba(139, 92, 246, 0.10);
+
+}
+
+
+body.dark .rating-star.active,
+html.dark .rating-star.active,
+.dark .rating-star.active,
+[data-theme="dark"] .rating-star.active {
+
+    color: #a78bfa;
+
+    background:
+        rgba(139, 92, 246, 0.18);
+
+}
+
+
+/* =========================================================
+   DARK CANCEL BUTTON
+========================================================= */
+
+body.dark .feedback-cancel-button,
+html.dark .feedback-cancel-button,
+.dark .feedback-cancel-button,
+[data-theme="dark"] .feedback-cancel-button {
+
+    border-color: #334155;
+
+    color: #f8fafc;
+
+}
+
+
+body.dark .feedback-cancel-button:hover,
+html.dark .feedback-cancel-button:hover,
+.dark .feedback-cancel-button:hover,
+[data-theme="dark"] .feedback-cancel-button:hover {
+
+    background: #0f172a;
+
+}
+
+
+/* =========================================================
+   DARK SUBMIT
+========================================================= */
+
+body.dark .feedback-submit-button,
+html.dark .feedback-submit-button,
+.dark .feedback-submit-button,
+[data-theme="dark"] .feedback-submit-button {
+
+    background: #7c3aed;
+
+    color: #ffffff;
+
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1400px) {
+
+    .feedback-page {
+
+        padding: 55px 70px;
+
+    }
+
+
+    .feedback-card {
+
+        max-width: 820px;
+
+        padding: 42px;
+
+    }
+
+
+    .feedback-header h2 {
+
+        font-size: 34px;
+
+    }
+
+}
+
+
+/* =========================================================
+   LAPTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .feedback-page {
+
+        padding: 35px 30px;
+
+    }
+
+
+    .feedback-card {
+
+        max-width: 720px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .feedback-page {
+
+        padding: 30px 22px;
+
+    }
+
+
+    .feedback-card {
+
+        max-width: 680px;
+
+        padding: 30px;
+
+        border-radius: 22px;
+
+    }
+
+
+    .feedback-header h2 {
+
+        font-size: 28px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .feedback-page {
+
+        width: 100%;
+
+        padding: 20px 14px;
+
+    }
+
+
+    .feedback-card {
+
+        width: 100%;
+
+        max-width: none;
+
+        padding: 24px 18px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .feedback-header {
+
+        margin-bottom: 24px;
+
+    }
+
+
+    .feedback-header h2 {
+
+        font-size: 24px;
+
+        line-height: 1.25;
+
+    }
+
+
+    .feedback-header p {
+
+        font-size: 13px;
+
+    }
+
+
+    .feedback-form {
+
+        gap: 22px;
+
+    }
+
+
+    .feedback-field textarea {
+
+        min-height: 115px;
+
+    }
+
+
+    .feedback-actions {
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+
+    }
+
+
+    .feedback-cancel-button,
+    .feedback-submit-button {
+
+        width: 100%;
+
+        min-height: 48px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .feedback-page {
+
+        padding: 14px 10px;
+
+    }
+
+
+    .feedback-card {
+
+        padding: 20px 14px;
+
+        border-radius: 18px;
+
+    }
+
+
+    .feedback-header h2 {
+
+        font-size: 21px;
+
+    }
+
+
+    .feedback-header p {
+
+        font-size: 13px;
+
+        line-height: 1.5;
+
+    }
+
+
+    .feedback-eyebrow {
+
+        font-size: 11px;
+
+    }
+
+
+    .feedback-field label {
+
+        font-size: 13px;
+
+    }
+
+
+    .feedback-field textarea {
+
+        min-height: 110px;
+
+        padding: 13px 14px;
+
+        font-size: 13px;
+
+    }
+
+
+    .rating-options {
+
+        gap: 5px;
+
+    }
+
+
+    .rating-star {
+
+        width: 38px;
+
+        height: 38px;
+
+        border-radius: 10px;
+
+        font-size: 21px;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+========================================================= */
+
+@media (max-width: 350px) {
+
+    .feedback-page {
+
+        padding: 10px 8px;
+
+    }
+
+
+    .feedback-card {
+
+        padding: 17px 12px;
+
+    }
+
+
+    .feedback-header h2 {
+
+        font-size: 19px;
+
+    }
+
+
+    .rating-options {
+
+        gap: 4px;
+
+    }
+
+
+    .rating-star {
+
+        width: 36px;
+
+        height: 36px;
+
+        font-size: 19px;
+
+    }
+
+
+    .feedback-field textarea {
+
+        font-size: 12px;
+
+    }
+
+
+    .feedback-cancel-button,
+    .feedback-submit-button {
+
+        font-size: 13px;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.feedback-cancel-button:focus-visible,
+.feedback-submit-button:focus-visible,
+.rating-star:focus-visible,
+.feedback-field textarea:focus-visible {
+
+    outline: 2px solid #8b5cf6;
+
+    outline-offset: 2px;
+
+}
+
+/* =====================================================
+   TRACKTALLY TOAST NOTIFICATION
+   Light + Dark Theme
+===================================================== */
+
+.toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 280px;
+    max-width: 420px;
+
+    padding: 14px 18px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    box-sizing: border-box;
+
+    animation: toastSlideIn 0.3s ease;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =====================================================
+   TOAST ICON
+===================================================== */
+
+.toast-icon {
+    width: 26px;
+    height: 26px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+
+/* =====================================================
+   SUCCESS TOAST - LIGHT
+===================================================== */
+
+.toast-success {
+    background: #ffffff;
+
+    color: #1f2937;
+
+    border: 1px solid #d1fae5;
+}
+
+.toast-success .toast-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+
+/* =====================================================
+   ERROR TOAST - LIGHT
+===================================================== */
+
+.toast-error {
+    background: #ffffff;
+
+    color: #1f2937;
+
+    border: 1px solid #fecaca;
+}
+
+.toast-error .toast-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+[data-theme="dark"] .toast-success {
+    background: #171321;
+
+    color: #f5f3ff;
+
+    border-color: #3b2a55;
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .toast-success .toast-icon {
+    background: rgba(139, 92, 246, 0.18);
+    color: #a78bfa;
+}
+
+
+[data-theme="dark"] .toast-error {
+    background: #171321;
+
+    color: #f5f3ff;
+
+    border-color: #5a2a35;
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .toast-error .toast-icon {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+}
+
+
+/* =====================================================
+   TOAST ANIMATION
+===================================================== */
+
+@keyframes toastSlideIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .toast {
+        top: 16px;
+        right: 12px;
+        left: 12px;
+
+        width: auto;
+        min-width: 0;
+        max-width: none;
+
+        padding: 13px 15px;
+
+        font-size: 13px;
+
+        border-radius: 13px;
+    }
+
+}
+
+
+/* =====================================================
+   VERY SMALL PHONE
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .toast {
+        top: 12px;
+        right: 10px;
+        left: 10px;
+
+        padding: 12px 13px;
+
+        font-size: 12px;
+    }
+
+    .toast-icon {
+        width: 24px;
+        height: 24px;
+
+        font-size: 14px;
+    }
+
+}
