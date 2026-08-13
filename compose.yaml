@@ -1,0 +1,21 @@
+services:
+  backend:
+    image: tracktally-backend:latest
+    container_name: tracktally-backend
+    ports:
+      - "8080:8080"
+    environment:
+      TRACKTALLY_JWT_SECRET: "4uzmy+9q+zQ2Sv0UO4U/wSdGQZ6ZTa1m9UaOaX/31QA="
+      TRACKTALLY_ADMIN_USERNAME: "admin"
+      TRACKTALLY_ADMIN_PASSWORD: "admin123"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/tracktally_backend"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root123"
+
+  frontend:
+    image: tracktally-frontend:latest
+    container_name: tracktally-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
