@@ -386,9 +386,9 @@ function Navbar({
                         </span>
 
 
-                        <span className="theme-arrow">
-                            →
-                        </span>
+{/*                         <span className="theme-arrow"> */}
+{/*                             → */}
+{/*                         </span> */}
 
                     </button>
 

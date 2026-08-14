@@ -10531,3 +10531,114 @@ html[data-theme="dark"] .delete-modal-icon,
     }
 
 }
+
+
+/* =========================================================
+   MOBILE NAVBAR FINAL OVERRIDE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* Sidebar mobile container */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    /* Main navigation section */
+    .sidebar-section {
+        display: flex;
+        flex-direction: column;
+        gap: 6px !important;
+    }
+
+
+    /* Remove unwanted spacing from navigation links */
+    .sidebar-section .sidebar-link {
+        margin: 0 !important;
+    }
+
+
+    /* Keep Add Expense close to the items below */
+    .sidebar-section .sidebar-link:last-child {
+        margin-bottom: 0 !important;
+    }
+
+
+    /* Spacer should NOT create a huge gap on mobile */
+    .sidebar-spacer {
+        flex: 0 !important;
+        height: 12px !important;
+        min-height: 12px !important;
+    }
+
+
+    /* Bottom section */
+    .sidebar-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 6px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+
+    /* Dark/Light mode button */
+    .sidebar-bottom .theme-button {
+        margin: 0 !important;
+    }
+
+
+    /* Feedback */
+    .sidebar-bottom .sidebar-link {
+        margin: 0 !important;
+    }
+
+}
+
+/* ========================================
+   DARK MODE
+   ======================================== */
+
+.dark .expense-filters input[type="date"],
+body.dark .expense-filters input[type="date"] {
+
+    color: #f9fafb !important;
+
+    background-color: #1f2937 !important;
+
+    -webkit-text-fill-color: #f9fafb !important;
+}
+
+
+.dark .expense-filters input[type="date"]::-webkit-datetime-edit,
+body.dark .expense-filters input[type="date"]::-webkit-datetime-edit {
+
+    color: #f9fafb !important;
+
+    -webkit-text-fill-color: #f9fafb !important;
+}
+
+
+.dark .expense-filters input[type="date"]::-webkit-datetime-edit-month-field,
+.dark .expense-filters input[type="date"]::-webkit-datetime-edit-day-field,
+.dark .expense-filters input[type="date"]::-webkit-datetime-edit-year-field,
+
+body.dark .expense-filters input[type="date"]::-webkit-datetime-edit-month-field,
+body.dark .expense-filters input[type="date"]::-webkit-datetime-edit-day-field,
+body.dark .expense-filters input[type="date"]::-webkit-datetime-edit-year-field {
+
+    color: #f9fafb !important;
+
+    -webkit-text-fill-color: #f9fafb !important;
+}
+
+
+.dark .expense-filters input[type="date"]::-webkit-datetime-edit-text,
+body.dark .expense-filters input[type="date"]::-webkit-datetime-edit-text {
+
+    color: #9ca3af !important;
+
+    -webkit-text-fill-color: #9ca3af !important;
+}
