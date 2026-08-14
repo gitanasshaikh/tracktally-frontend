@@ -8,11 +8,6 @@ function Feedback() {
 
     const { showToast } = useToast();
 
-
-    // ========================================
-    // FORM STATES
-    // ========================================
-
     const [rating, setRating] = useState(0);
 
     const [feedback, setFeedback] =
@@ -23,11 +18,6 @@ function Feedback() {
 
     const [suggestion, setSuggestion] =
         useState("");
-
-
-    // ========================================
-    // SUBMIT LOADING
-    // ========================================
 
     const [submitting, setSubmitting] =
         useState(false);
@@ -41,11 +31,6 @@ function Feedback() {
 
         e.preventDefault();
 
-
-        // ========================================
-        // RATING VALIDATION
-        // ========================================
-
         if (rating === 0) {
 
             showToast(
@@ -54,25 +39,14 @@ function Feedback() {
             );
 
             return;
-
         }
-
-
-        // ========================================
-        // START SUBMITTING
-        // ========================================
 
         setSubmitting(true);
 
-
         try {
 
-            // ========================================
-            // SEND DATA TO BACKEND
-            // ========================================
-
             const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/feedback`
+                `${import.meta.env.VITE_API_URL}/feedback`,
                 {
                     method: "POST",
 
@@ -84,9 +58,6 @@ function Feedback() {
                     body: JSON.stringify({
 
                         rating: rating,
-
-                        // Frontend "feedback"
-                        // → Backend "generalFeedback"
 
                         generalFeedback:
                             feedback,
@@ -103,17 +74,9 @@ function Feedback() {
             );
 
 
-            // ========================================
-            // RESPONSE
-            // ========================================
-
             const data =
                 await response.json();
 
-
-            // ========================================
-            // ERROR
-            // ========================================
 
             if (!response.ok) {
 
@@ -125,40 +88,24 @@ function Feedback() {
             }
 
 
-            // ========================================
-            // SUCCESS TOAST
-            // ========================================
-
             showToast(
                 "Feedback submitted successfully 💜",
                 "success"
             );
 
 
-            // ========================================
-            // RESET FORM
-            // ========================================
-
             setRating(0);
-
             setFeedback("");
-
             setBug("");
-
             setSuggestion("");
 
 
         } catch (error) {
 
-            // ========================================
-            // ERROR HANDLING
-            // ========================================
-
             console.error(
                 "Feedback submission error:",
                 error
             );
-
 
             showToast(
                 "Failed to submit feedback",
@@ -167,10 +114,6 @@ function Feedback() {
 
 
         } finally {
-
-            // ========================================
-            // STOP LOADING
-            // ========================================
 
             setSubmitting(false);
 
@@ -188,11 +131,6 @@ function Feedback() {
         <div className="feedback-page">
 
             <div className="feedback-card">
-
-
-                {/* =================================
-                    HEADER
-                ================================= */}
 
                 <div className="feedback-header">
 
@@ -212,26 +150,18 @@ function Feedback() {
                 </div>
 
 
-                {/* =================================
-                    FORM
-                ================================= */}
-
                 <form
                     className="feedback-form"
                     onSubmit={handleSubmit}
                 >
 
-
-                    {/* =================================
-                        RATING
-                    ================================= */}
+                    {/* RATING */}
 
                     <div className="feedback-field">
 
                         <label>
                             How was your experience?
                         </label>
-
 
                         <div className="rating-options">
 
@@ -253,9 +183,7 @@ function Feedback() {
                                             `${star} star`
                                         }
                                     >
-
                                         ★
-
                                     </button>
 
                                 )
@@ -266,16 +194,13 @@ function Feedback() {
                     </div>
 
 
-                    {/* =================================
-                        GENERAL FEEDBACK
-                    ================================= */}
+                    {/* GENERAL FEEDBACK */}
 
                     <div className="feedback-field">
 
                         <label htmlFor="feedback">
                             General Feedback
                         </label>
-
 
                         <textarea
                             id="feedback"
@@ -290,7 +215,6 @@ function Feedback() {
                             rows={5}
                         />
 
-
                         <small>
                             {feedback.length}/1000
                         </small>
@@ -298,16 +222,13 @@ function Feedback() {
                     </div>
 
 
-                    {/* =================================
-                        BUG
-                    ================================= */}
+                    {/* BUG */}
 
                     <div className="feedback-field">
 
                         <label htmlFor="bug">
                             Did you find any bug?
                         </label>
-
 
                         <textarea
                             id="bug"
@@ -322,7 +243,6 @@ function Feedback() {
                             rows={4}
                         />
 
-
                         <small>
                             {bug.length}/1000
                         </small>
@@ -330,16 +250,13 @@ function Feedback() {
                     </div>
 
 
-                    {/* =================================
-                        SUGGESTION
-                    ================================= */}
+                    {/* SUGGESTION */}
 
                     <div className="feedback-field">
 
                         <label htmlFor="suggestion">
                             Any suggestion?
                         </label>
-
 
                         <textarea
                             id="suggestion"
@@ -354,7 +271,6 @@ function Feedback() {
                             rows={4}
                         />
 
-
                         <small>
                             {suggestion.length}/1000
                         </small>
@@ -362,14 +278,9 @@ function Feedback() {
                     </div>
 
 
-                    {/* =================================
-                        BUTTONS
-                    ================================= */}
+                    {/* BUTTONS */}
 
                     <div className="feedback-actions">
-
-
-                        {/* CANCEL */}
 
                         <button
                             type="button"
@@ -383,8 +294,6 @@ function Feedback() {
                         </button>
 
 
-                        {/* SUBMIT */}
-
                         <button
                             type="submit"
                             className="feedback-submit-button"
@@ -397,9 +306,7 @@ function Feedback() {
 
                         </button>
 
-
                     </div>
-
 
                 </form>
 

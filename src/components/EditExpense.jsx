@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
     useNavigate,
@@ -13,7 +14,6 @@ function EditExpense() {
 
     const { showToast } = useToast();
 
-
     const [expense, setExpense] = useState({
         name: "",
         amount: "",
@@ -22,7 +22,6 @@ function EditExpense() {
         paymentMethod: "Cash",
         note: ""
     });
-
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -43,42 +42,20 @@ function EditExpense() {
                     `${import.meta.env.VITE_API_URL}/expenses/${id}`
                 );
 
-
                 if (!response.ok) {
-
-                    throw new Error(
-                        "Expense not found"
-                    );
-
+                    throw new Error("Expense not found");
                 }
 
-
-                const data =
-                    await response.json();
-
+                const data = await response.json();
 
                 setExpense({
-
-                    name:
-                        data.name || "",
-
-                    amount:
-                        data.amount ?? "",
-
-                    category:
-                        data.category || "Food",
-
-                    date:
-                        data.date || "",
-
-                    paymentMethod:
-                        data.paymentMethod || "Cash",
-
-                    note:
-                        data.note || ""
-
+                    name: data.name || "",
+                    amount: data.amount ?? "",
+                    category: data.category || "Food",
+                    date: data.date || "",
+                    paymentMethod: data.paymentMethod || "Cash",
+                    note: data.note || ""
                 });
-
 
             } catch (error) {
 
@@ -87,17 +64,14 @@ function EditExpense() {
                     error
                 );
 
-
                 setError(
                     "Unable to load this expense."
                 );
-
 
                 showToast(
                     "Failed to load expense",
                     "error"
                 );
-
 
             } finally {
 
@@ -106,7 +80,6 @@ function EditExpense() {
             }
 
         };
-
 
         loadExpense();
 
@@ -124,14 +97,10 @@ function EditExpense() {
             value
         } = e.target;
 
-
-        setExpense(
-            previousExpense => ({
-                ...previousExpense,
-                [name]: value
-            })
-        );
-
+        setExpense((previousExpense) => ({
+            ...previousExpense,
+            [name]: value
+        }));
 
         setError("");
 
@@ -202,28 +171,23 @@ function EditExpense() {
 
         try {
 
-            const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/expenses/${id}`
-                {
+            // ========================================
+            // PUT REQUEST
+            // ========================================
 
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/expenses/${id}`,
+                {
                     method: "PUT",
 
                     headers: {
-                        "Content-Type":
-                            "application/json"
+                        "Content-Type": "application/json"
                     },
 
                     body: JSON.stringify({
-
                         ...expense,
-
-                        amount:
-                            Number(
-                                expense.amount
-                            )
-
+                        amount: Number(expense.amount)
                     })
-
                 }
             );
 
@@ -275,21 +239,14 @@ function EditExpense() {
                 error
             );
 
-
             setError(
                 "Failed to update expense."
             );
-
-
-            // ========================================
-            // ERROR TOAST
-            // ========================================
 
             showToast(
                 "Failed to update expense",
                 "error"
             );
-
 
         } finally {
 
@@ -351,8 +308,7 @@ function EditExpense() {
                     </h2>
 
                     <p>
-                        Update the details of your
-                        expense.
+                        Update the details of your expense.
                     </p>
 
                 </div>
@@ -365,7 +321,6 @@ function EditExpense() {
             <div className="expense-form-card">
 
                 <form onSubmit={handleSubmit}>
-
 
                     <div className="expense-form-grid">
 
@@ -579,7 +534,6 @@ function EditExpense() {
                     {/* ACTIONS */}
 
                     <div className="expense-form-actions">
-
 
                         <button
                             type="button"

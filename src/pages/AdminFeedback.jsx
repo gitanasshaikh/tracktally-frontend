@@ -33,11 +33,13 @@ function AdminFeedback() {
         });
 
         setTimeout(() => {
+
             setToast({
                 show: false,
                 message: "",
                 type: "success"
             });
+
         }, 3000);
     };
 
@@ -51,13 +53,16 @@ function AdminFeedback() {
         const token = localStorage.getItem("adminToken");
 
         if (!token) {
+
             setError("Admin login required.");
             setLoading(false);
+
             return;
         }
 
+
         axios.get(
-            `${import.meta.env.VITE_API_URL}/admin/feedback`
+            `${import.meta.env.VITE_API_URL}/admin/feedback`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -77,7 +82,10 @@ function AdminFeedback() {
                 err
             );
 
-            setError("Unable to load feedback.");
+            setError(
+                "Unable to load feedback."
+            );
+
             setLoading(false);
 
         });
@@ -119,7 +127,10 @@ function AdminFeedback() {
             return;
         }
 
-        const token = localStorage.getItem("adminToken");
+
+        const token =
+            localStorage.getItem("adminToken");
+
 
         if (!token) {
 
@@ -131,12 +142,14 @@ function AdminFeedback() {
             return;
         }
 
+
         setDeleteLoading(true);
+
 
         try {
 
             await axios.delete(
-                `${import.meta.env.VITE_API_URL}/admin/feedback/${selectedFeedback.id}`
+                `${import.meta.env.VITE_API_URL}/admin/feedback/${selectedFeedback.id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -145,7 +158,8 @@ function AdminFeedback() {
             );
 
 
-            // Remove from UI
+            // Remove deleted feedback from UI
+
             setFeedbackList((currentList) => {
 
                 return currentList.filter(
@@ -159,10 +173,12 @@ function AdminFeedback() {
             setShowDeleteModal(false);
             setSelectedFeedback(null);
 
+
             showToast(
                 "Feedback deleted successfully.",
                 "success"
             );
+
 
         } catch (err) {
 
@@ -171,10 +187,12 @@ function AdminFeedback() {
                 err
             );
 
+
             showToast(
                 "Unable to delete feedback.",
                 "error"
             );
+
 
         } finally {
 
@@ -192,6 +210,7 @@ function AdminFeedback() {
     if (loading) {
 
         return (
+
             <main className="admin-feedback-root">
 
                 <section className="admin-feedback-wrapper">
@@ -209,6 +228,7 @@ function AdminFeedback() {
                 </section>
 
             </main>
+
         );
 
     }
@@ -221,6 +241,7 @@ function AdminFeedback() {
     if (error) {
 
         return (
+
             <main className="admin-feedback-root">
 
                 <section className="admin-feedback-wrapper">
@@ -244,6 +265,7 @@ function AdminFeedback() {
                 </section>
 
             </main>
+
         );
 
     }
@@ -352,6 +374,7 @@ function AdminFeedback() {
                                             USER FEEDBACK
                                         </span>
 
+
                                         <div className="admin-rating">
 
                                             <span className="admin-stars">
@@ -361,10 +384,12 @@ function AdminFeedback() {
                                                 )}
 
                                                 {"☆".repeat(
-                                                    5 - (feedback.rating || 0)
+                                                    5 -
+                                                    (feedback.rating || 0)
                                                 )}
 
                                             </span>
+
 
                                             <span className="admin-rating-number">
                                                 {feedback.rating}/5
@@ -399,6 +424,8 @@ function AdminFeedback() {
                                 <div className="admin-feedback-content">
 
 
+                                    {/* GENERAL FEEDBACK */}
+
                                     <div className="admin-feedback-block">
 
                                         <span>
@@ -413,6 +440,8 @@ function AdminFeedback() {
                                     </div>
 
 
+                                    {/* BUG */}
+
                                     <div className="admin-feedback-block">
 
                                         <span>
@@ -426,6 +455,8 @@ function AdminFeedback() {
 
                                     </div>
 
+
+                                    {/* SUGGESTION */}
 
                                     <div className="admin-feedback-block">
 
@@ -460,6 +491,7 @@ function AdminFeedback() {
 
                                 </footer>
 
+
                             </article>
 
                         ))}
@@ -493,21 +525,30 @@ function AdminFeedback() {
                             🗑
                         </div>
 
+
                         <h2>
                             Delete feedback?
                         </h2>
+
 
                         <p>
                             This feedback will be permanently removed.
                             This action cannot be undone.
                         </p>
 
+
                         <div className="admin-modal-id">
-                            Feedback #{selectedFeedback?.id}
+
+                            Feedback #
+                            {selectedFeedback?.id}
+
                         </div>
 
 
                         <div className="admin-modal-actions">
+
+
+                            {/* CANCEL */}
 
                             <button
                                 type="button"
@@ -518,6 +559,8 @@ function AdminFeedback() {
                                 Cancel
                             </button>
 
+
+                            {/* DELETE */}
 
                             <button
                                 type="button"
@@ -532,6 +575,7 @@ function AdminFeedback() {
                                 }
 
                             </button>
+
 
                         </div>
 
@@ -574,7 +618,9 @@ function AdminFeedback() {
             )}
 
         </main>
+
     );
+
 }
 
 export default AdminFeedback;
