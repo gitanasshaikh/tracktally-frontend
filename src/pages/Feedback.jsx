@@ -72,7 +72,7 @@ function Feedback() {
             // ========================================
 
             const response = await fetch(
-                "http://localhost:8080/feedback",
+                `${import.meta.env.VITE_API_URL}/feedback`
                 {
                     method: "POST",
 

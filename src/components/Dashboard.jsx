@@ -17,6 +17,12 @@ import {
 
 function Dashboard() {
 
+    // ========================================
+    // API
+    // ========================================
+
+    const API = `${import.meta.env.VITE_API_URL}/expenses`;
+
     const currentYear = new Date().getFullYear();
 
     const months = [
@@ -56,27 +62,6 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
 
     const [error, setError] = useState("");
-
-
-    // ========================================
-    // API
-    // ========================================
-
-    const API = "http://localhost:8080/expenses";
-
-
-    // ========================================
-    // CHART COLORS
-    // ========================================
-
-    const chartColors = [
-        "#6366f1",
-        "#8b5cf6",
-        "#06b6d4",
-        "#10b981",
-        "#f59e0b",
-        "#ef4444"
-    ];
 
 
     // ========================================
@@ -668,28 +653,24 @@ function Dashboard() {
 
                 <div className="chart-container">
 
-                    {/* ==================================
-                        NO DATA FOR SELECTED MONTH
-                    ================================== */}
+                    {Number(monthlyTotal) <= 0 ? (
 
-                  {Number(monthlyTotal) <= 0 ? (
+                        <div className="empty-chart">
 
-                      <div className="empty-chart">
+                            <div>
+                                📊
+                            </div>
 
-                          <div>
-                              📊
-                          </div>
+                            <p>
+                                No expense data available for{" "}
+                                <strong>
+                                    {months[selectedMonth - 1]}
+                                </strong>
+                            </p>
 
-                          <p>
-                              No expense data available for{" "}
-                              <strong>
-                                  {months[selectedMonth - 1]}
-                              </strong>
-                          </p>
+                        </div>
 
-                      </div>
-
-                  ) : (
+                    ) : (
 
                         <ResponsiveContainer
                             width="100%"

@@ -57,7 +57,7 @@ function AdminFeedback() {
         }
 
         axios.get(
-            "http://localhost:8080/admin/feedback",
+            `${import.meta.env.VITE_API_URL}/admin/feedback`
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -136,7 +136,7 @@ function AdminFeedback() {
         try {
 
             await axios.delete(
-                `http://localhost:8080/admin/feedback/${selectedFeedback.id}`,
+                `${import.meta.env.VITE_API_URL}/admin/feedback/${selectedFeedback.id}`
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

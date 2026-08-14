@@ -40,7 +40,7 @@ function EditExpense() {
             try {
 
                 const response = await fetch(
-                    `http://localhost:8080/expenses/${id}`
+                    `${import.meta.env.VITE_API_URL}/expenses/${id}`
                 );
 
 
@@ -203,7 +203,7 @@ function EditExpense() {
         try {
 
             const response = await fetch(
-                `http://localhost:8080/expenses/${id}`,
+                `${import.meta.env.VITE_API_URL}/expenses/${id}`
                 {
 
                     method: "PUT",

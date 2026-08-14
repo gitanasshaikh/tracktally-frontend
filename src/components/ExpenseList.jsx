@@ -2,367 +2,244 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../context/ToastContext";
 
-
 function ExpenseList({ onEdit }) {
+    const API = `${import.meta.env.VITE_API_URL}/expenses`;
 
     const navigate = useNavigate();
-
     const { showToast } = useToast();
 
-
     const [expenses, setExpenses] = useState([]);
-
     const [searchName, setSearchName] = useState("");
-
     const [category, setCategory] = useState("");
-
     const [date, setDate] = useState("");
 
-
     const [loading, setLoading] = useState(true);
-
     const [error, setError] = useState("");
-
 
     // ========================================
     // DELETE MODAL
     // ========================================
 
-    const [deleteExpenseId, setDeleteExpenseId] =
-        useState(null);
-
-    const [deleteModalOpen, setDeleteModalOpen] =
-        useState(false);
-
-    const [deleting, setDeleting] =
-        useState(false);
-
+    const [deleteExpenseId, setDeleteExpenseId] = useState(null);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     // ========================================
     // EXPORT LOADING
     // ========================================
 
-    const [exportingPdf, setExportingPdf] =
-        useState(false);
-
-    const [exportingExcel, setExportingExcel] =
-        useState(false);
-
+    const [exportingPdf, setExportingPdf] = useState(false);
+    const [exportingExcel, setExportingExcel] = useState(false);
 
     // ========================================
     // EXPORT OPTIONS
     // ========================================
 
-    const [exportModalOpen, setExportModalOpen] =
-        useState(false);
+    const [exportModalOpen, setExportModalOpen] = useState(false);
+    const [exportScope, setExportScope] = useState("all");
 
-    const [exportScope, setExportScope] =
-        useState("all");
+    const [exportMonth, setExportMonth] = useState(
+        new Date().getMonth() + 1
+    );
 
-    const [exportMonth, setExportMonth] =
-        useState(
-            new Date().getMonth() + 1
-        );
+    const [exportYear, setExportYear] = useState(
+        new Date().getFullYear()
+    );
 
-    const [exportYear, setExportYear] =
-        useState(
-            new Date().getFullYear()
-        );
-
-    const [exportFormat, setExportFormat] =
-        useState("pdf");
-
+    const [exportFormat, setExportFormat] = useState("pdf");
 
     // ========================================
     // GET ALL EXPENSES
     // ========================================
 
     const fetchExpenses = async () => {
-
         setLoading(true);
         setError("");
 
         try {
-
-            const response = await fetch(
-                "http://localhost:8080/expenses"
-            );
+            const response = await fetch(API);
 
             if (!response.ok) {
-
-                throw new Error(
-                    "Failed to fetch expenses"
-                );
-
+                throw new Error("Failed to fetch expenses");
             }
 
-            const data =
-                await response.json();
+            const data = await response.json();
 
             setExpenses(data);
-
         } catch (error) {
-
-            console.error(
-                "Error fetching expenses:",
-                error
-            );
+            console.error("Error fetching expenses:", error);
 
             setError(
                 "Unable to load expenses. Please check your backend."
             );
-
         } finally {
-
             setLoading(false);
-
         }
-
     };
-
 
     // ========================================
     // LOAD ON PAGE OPEN
     // ========================================
 
     useEffect(() => {
-
         fetchExpenses();
-
     }, []);
-
 
     // ========================================
     // SEARCH
     // ========================================
 
     const searchExpense = async () => {
-
         if (searchName.trim() === "") {
-
             fetchExpenses();
-
             return;
-
         }
 
         setLoading(true);
         setError("");
 
         try {
-
             const response = await fetch(
-                `http://localhost:8080/expenses/search?name=${encodeURIComponent(
-                    searchName
-                )}`
+                `${API}/search?name=${encodeURIComponent(searchName)}`
             );
 
             if (!response.ok) {
-
-                throw new Error(
-                    "Failed to search expenses"
-                );
-
+                throw new Error("Failed to search expenses");
             }
 
-            const data =
-                await response.json();
+            const data = await response.json();
 
             setExpenses(data);
-
         } catch (error) {
+            console.error("Search error:", error);
 
-            console.error(
-                "Search error:",
-                error
-            );
-
-            setError(
-                "Unable to search expenses."
-            );
-
+            setError("Unable to search expenses.");
         } finally {
-
             setLoading(false);
-
         }
-
     };
-
 
     // ========================================
     // CATEGORY FILTER
     // ========================================
 
-    const filterByCategory = async (
-        selectedCategory
-    ) => {
-
+    const filterByCategory = async (selectedCategory) => {
         setCategory(selectedCategory);
 
         if (selectedCategory === "") {
-
             fetchExpenses();
-
             return;
-
         }
 
         setLoading(true);
         setError("");
 
         try {
-
             const response = await fetch(
-                `http://localhost:8080/expenses/category/${selectedCategory}`
+                `${API}/category/${selectedCategory}`
             );
 
             if (!response.ok) {
-
                 throw new Error(
                     "Failed to filter by category"
                 );
-
             }
 
-            const data =
-                await response.json();
+            const data = await response.json();
 
             setExpenses(data);
-
         } catch (error) {
-
             console.error(
                 "Category filter error:",
                 error
             );
 
-            setError(
-                "Unable to filter expenses."
-            );
-
+            setError("Unable to filter expenses.");
         } finally {
-
             setLoading(false);
-
         }
-
     };
-
 
     // ========================================
     // DATE FILTER
     // ========================================
 
-    const filterByDate = async (
-        selectedDate
-    ) => {
-
+    const filterByDate = async (selectedDate) => {
         setDate(selectedDate);
 
         if (selectedDate === "") {
-
             fetchExpenses();
-
             return;
-
         }
 
         setLoading(true);
         setError("");
 
         try {
-
             const response = await fetch(
-                `http://localhost:8080/expenses/date/${selectedDate}`
+                `${API}/date/${selectedDate}`
             );
 
             if (!response.ok) {
-
                 throw new Error(
                     "Failed to filter by date"
                 );
-
             }
 
-            const data =
-                await response.json();
+            const data = await response.json();
 
             setExpenses(data);
-
         } catch (error) {
-
             console.error(
                 "Date filter error:",
                 error
             );
 
-            setError(
-                "Unable to filter expenses."
-            );
-
+            setError("Unable to filter expenses.");
         } finally {
-
             setLoading(false);
-
         }
-
     };
-
 
     // ========================================
     // CLEAR FILTERS
     // ========================================
 
     const clearFilters = () => {
-
         setSearchName("");
-
         setCategory("");
-
         setDate("");
 
         fetchExpenses();
-
     };
-
 
     // ========================================
     // OPEN DELETE MODAL
     // ========================================
 
     const openDeleteModal = (id) => {
-
         setDeleteExpenseId(id);
-
         setDeleteModalOpen(true);
-
     };
-
 
     // ========================================
     // CLOSE DELETE MODAL
     // ========================================
 
     const closeDeleteModal = () => {
-
         if (deleting) {
             return;
         }
 
         setDeleteExpenseId(null);
-
         setDeleteModalOpen(false);
-
     };
-
 
     // ========================================
     // CONFIRM DELETE EXPENSE
     // ========================================
 
     const confirmDeleteExpense = async () => {
-
         if (!deleteExpenseId) {
             return;
         }
@@ -370,44 +247,34 @@ function ExpenseList({ onEdit }) {
         setDeleting(true);
 
         try {
-
             const response = await fetch(
-                `http://localhost:8080/expenses/${deleteExpenseId}`,
+                `${API}/${deleteExpenseId}`,
                 {
                     method: "DELETE"
                 }
             );
 
             if (!response.ok) {
-
                 throw new Error(
                     "Failed to delete expense"
                 );
-
             }
 
-            setExpenses(
-                (previousExpenses) =>
-                    previousExpenses.filter(
-                        (expense) =>
-                            expense.id !==
-                            deleteExpenseId
-                    )
+            setExpenses((previousExpenses) =>
+                previousExpenses.filter(
+                    (expense) =>
+                        expense.id !== deleteExpenseId
+                )
             );
-
 
             showToast(
                 "Expense deleted successfully",
                 "success"
             );
 
-
             setDeleteModalOpen(false);
-
             setDeleteExpenseId(null);
-
         } catch (error) {
-
             console.error(
                 "Delete error:",
                 error
@@ -417,27 +284,20 @@ function ExpenseList({ onEdit }) {
                 "Failed to delete expense."
             );
 
-
             showToast(
                 "Failed to delete expense",
                 "error"
             );
-
         } finally {
-
             setDeleting(false);
-
         }
-
     };
-
 
     // ========================================
     // FORMAT AMOUNT
     // ========================================
 
     const formatAmount = (amount) => {
-
         return Number(amount).toLocaleString(
             "en-IN",
             {
@@ -445,160 +305,100 @@ function ExpenseList({ onEdit }) {
                 maximumFractionDigits: 2
             }
         );
-
     };
-
 
     // ========================================
     // FORMAT DATE
-    // Backend gives:
-    // YYYY-MM-DD
-    //
-    // Display:
-    // DD-MM-YYYY
     // ========================================
 
     const formatDate = (dateString) => {
-
         if (!dateString) {
             return "";
         }
 
-        const parts =
-            dateString.split("-");
+        const parts = dateString.split("-");
 
         if (parts.length !== 3) {
             return dateString;
         }
 
-        const [
-            year,
-            month,
-            day
-        ] = parts;
+        const [year, month, day] = parts;
 
         return `${day}-${month}-${year}`;
-
     };
-
 
     // ========================================
     // OPEN EXPORT MODAL
     // ========================================
 
     const openExportModal = () => {
-
         setExportModalOpen(true);
-
     };
-
 
     // ========================================
     // CLOSE EXPORT MODAL
     // ========================================
 
     const closeExportModal = () => {
-
         if (
             exportingPdf ||
             exportingExcel
         ) {
-
             return;
-
         }
 
         setExportModalOpen(false);
-
     };
-
 
     // ========================================
     // EXPORT FILE
     // ========================================
 
     const downloadExportFile = async () => {
-
-        const isPdf =
-            exportFormat === "pdf";
-
+        const isPdf = exportFormat === "pdf";
 
         if (isPdf) {
-
             setExportingPdf(true);
-
         } else {
-
             setExportingExcel(true);
-
         }
 
-
         try {
-
-            let exportUrl =
-                isPdf
-                    ? "http://localhost:8080/expenses/export/pdf"
-                    : "http://localhost:8080/expenses/export/excel";
-
+            let exportUrl = isPdf
+                ? `${API}/export/pdf`
+                : `${API}/export/excel`;
 
             // ========================================
             // EXPORT SCOPE
             // ========================================
 
-            if (
-                exportScope === "month"
-            ) {
-
+            if (exportScope === "month") {
                 exportUrl +=
                     `?scope=month&year=${exportYear}&month=${exportMonth}`;
-
             }
 
-
-            if (
-                exportScope === "year"
-            ) {
-
+            if (exportScope === "year") {
                 exportUrl +=
                     `?scope=year&year=${exportYear}`;
-
             }
-
 
             // ========================================
             // REQUEST
             // ========================================
 
-            const response =
-                await fetch(exportUrl);
-
+            const response = await fetch(exportUrl);
 
             if (!response.ok) {
-
-                throw new Error(
-                    "Export failed"
-                );
-
+                throw new Error("Export failed");
             }
 
+            const blob = await response.blob();
 
-            const blob =
-                await response.blob();
+            const url = window.URL.createObjectURL(blob);
 
-
-            const url =
-                window.URL.createObjectURL(
-                    blob
-                );
-
-
-            const link =
-                document.createElement("a");
-
+            const link = document.createElement("a");
 
             link.href = url;
-
 
             link.download =
                 exportScope === "month"
@@ -607,18 +407,13 @@ function ExpenseList({ onEdit }) {
                         ? `TrackTally_${exportYear}.${isPdf ? "pdf" : "xlsx"}`
                         : `TrackTally_All_Expenses.${isPdf ? "pdf" : "xlsx"}`;
 
-
             document.body.appendChild(link);
-
 
             link.click();
 
-
             link.remove();
 
-
             window.URL.revokeObjectURL(url);
-
 
             // ========================================
             // SUCCESS
@@ -631,17 +426,12 @@ function ExpenseList({ onEdit }) {
                 "success"
             );
 
-
             setExportModalOpen(false);
-
-
         } catch (error) {
-
             console.error(
                 "Export error:",
                 error
             );
-
 
             showToast(
                 isPdf
@@ -649,42 +439,27 @@ function ExpenseList({ onEdit }) {
                     : "Failed to export Excel",
                 "error"
             );
-
-
         } finally {
-
             if (isPdf) {
-
                 setExportingPdf(false);
-
             } else {
-
                 setExportingExcel(false);
-
             }
-
         }
-
     };
-
 
     // ========================================
     // UI
     // ========================================
 
     return (
-
         <div className="expense-list-page">
 
-
-            {/* =================================
-                HEADER
-            ================================= */}
+            {/* HEADER */}
 
             <div className="expense-list-header">
 
                 <div>
-
                     <span className="expense-eyebrow">
                         TRANSACTIONS
                     </span>
@@ -697,13 +472,7 @@ function ExpenseList({ onEdit }) {
                         Search, filter and manage
                         your expenses.
                     </p>
-
                 </div>
-
-
-                {/* =================================
-                    ADD EXPENSE
-                ================================= */}
 
                 <button
                     className="expense-add-button"
@@ -711,32 +480,21 @@ function ExpenseList({ onEdit }) {
                         navigate("/add-expense")
                     }
                 >
-
-                    <span>
-                        +
-                    </span>
-
+                    <span>+</span>
                     Add Expense
-
                 </button>
-
 
             </div>
 
-
-            {/* =================================
-                SEARCH + FILTERS
-            ================================= */}
+            {/* SEARCH + FILTERS */}
 
             <div className="expense-controls">
-
 
                 <div className="expense-search">
 
                     <span className="search-icon">
                         🔍
                     </span>
-
 
                     <input
                         type="text"
@@ -748,32 +506,21 @@ function ExpenseList({ onEdit }) {
                             )
                         }
                         onKeyDown={(e) => {
-
-                            if (
-                                e.key === "Enter"
-                            ) {
-
+                            if (e.key === "Enter") {
                                 searchExpense();
-
                             }
-
                         }}
                     />
 
-
                     <button
-                        onClick={
-                            searchExpense
-                        }
+                        onClick={searchExpense}
                     >
                         Search
                     </button>
 
                 </div>
 
-
                 <div className="expense-filters">
-
 
                     <select
                         value={category}
@@ -783,7 +530,6 @@ function ExpenseList({ onEdit }) {
                             )
                         }
                     >
-
                         <option value="">
                             All Categories
                         </option>
@@ -803,9 +549,7 @@ function ExpenseList({ onEdit }) {
                         <option value="Bills">
                             Bills
                         </option>
-
                     </select>
-
 
                     <input
                         type="date"
@@ -817,43 +561,28 @@ function ExpenseList({ onEdit }) {
                         }
                     />
 
-
                     <button
                         className="clear-filter-button"
-                        onClick={
-                            clearFilters
-                        }
+                        onClick={clearFilters}
                     >
                         Clear
                     </button>
-
 
                 </div>
 
             </div>
 
-
-            {/* =================================
-                ERROR
-            ================================= */}
+            {/* ERROR */}
 
             {error && (
-
                 <div className="expense-error">
-
                     ⚠️ {error}
-
                 </div>
-
             )}
 
-
-            {/* =================================
-                CONTENT
-            ================================= */}
+            {/* CONTENT */}
 
             <div className="expense-table-card">
-
 
                 {loading ? (
 
@@ -866,7 +595,6 @@ function ExpenseList({ onEdit }) {
                         </p>
 
                     </div>
-
 
                 ) : expenses.length === 0 ? (
 
@@ -887,7 +615,6 @@ function ExpenseList({ onEdit }) {
 
                     </div>
 
-
                 ) : (
 
                     <div className="expense-table-wrapper">
@@ -895,37 +622,15 @@ function ExpenseList({ onEdit }) {
                         <table className="expense-table">
 
                             <thead>
-
                                 <tr>
-
-                                    <th>
-                                        Expense
-                                    </th>
-
-                                    <th>
-                                        Amount
-                                    </th>
-
-                                    <th>
-                                        Category
-                                    </th>
-
-                                    <th>
-                                        Date
-                                    </th>
-
-                                    <th>
-                                        Payment
-                                    </th>
-
-                                    <th>
-                                        Actions
-                                    </th>
-
+                                    <th>Expense</th>
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Payment</th>
+                                    <th>Actions</th>
                                 </tr>
-
                             </thead>
-
 
                             <tbody>
 
@@ -945,13 +650,10 @@ function ExpenseList({ onEdit }) {
                                                 <div className="expense-name-cell">
 
                                                     <div className="expense-avatar">
-
                                                         {expense.name
                                                             ?.charAt(0)
                                                             ?.toUpperCase()}
-
                                                     </div>
-
 
                                                     <div>
 
@@ -961,15 +663,12 @@ function ExpenseList({ onEdit }) {
                                                             }
                                                         </strong>
 
-
                                                         {expense.note && (
-
                                                             <small>
                                                                 {
                                                                     expense.note
                                                                 }
                                                             </small>
-
                                                         )}
 
                                                     </div>
@@ -978,19 +677,15 @@ function ExpenseList({ onEdit }) {
 
                                             </td>
 
-
                                             <td
                                                 data-label="Amount"
                                                 className="expense-amount"
                                             >
-
                                                 ₹
                                                 {formatAmount(
                                                     expense.amount
                                                 )}
-
                                             </td>
-
 
                                             <td
                                                 data-label="Category"
@@ -999,41 +694,32 @@ function ExpenseList({ onEdit }) {
                                                 <span
                                                     className={`category-pill category-${expense.category?.toLowerCase()}`}
                                                 >
-
                                                     {
                                                         expense.category
                                                     }
-
                                                 </span>
 
                                             </td>
 
-
                                             <td
                                                 data-label="Date"
                                             >
-
                                                 {formatDate(
                                                     expense.date
                                                 )}
-
                                             </td>
-
 
                                             <td
                                                 data-label="Payment"
                                             >
 
                                                 <span className="payment-method">
-
                                                     {
                                                         expense.paymentMethod
                                                     }
-
                                                 </span>
 
                                             </td>
-
 
                                             <td
                                                 data-label="Actions"
@@ -1051,7 +737,6 @@ function ExpenseList({ onEdit }) {
                                                     >
                                                         Edit
                                                     </button>
-
 
                                                     <button
                                                         className="delete-button"
@@ -1083,13 +768,9 @@ function ExpenseList({ onEdit }) {
 
             </div>
 
-
-            {/* =================================
-                EXPORT SECTION
-            ================================= */}
+            {/* EXPORT SECTION */}
 
             <div className="expense-export-section">
-
 
                 <div className="expense-export-info">
 
@@ -1104,41 +785,28 @@ function ExpenseList({ onEdit }) {
 
                 </div>
 
-
                 <div className="expense-export-buttons">
 
                     <button
                         type="button"
                         className="expense-export-main-button"
-                        onClick={
-                            openExportModal
-                        }
+                        onClick={openExportModal}
                     >
-
-                        <span>
-                            📤
-                        </span>
-
+                        <span>📤</span>
                         Export Expenses
-
                     </button>
 
                 </div>
 
             </div>
 
-
-            {/* =================================
-                EXPORT MODAL
-            ================================= */}
+            {/* EXPORT MODAL */}
 
             {exportModalOpen && (
 
                 <div
                     className="export-modal-overlay"
-                    onClick={
-                        closeExportModal
-                    }
+                    onClick={closeExportModal}
                 >
 
                     <div
@@ -1169,13 +837,10 @@ function ExpenseList({ onEdit }) {
 
                             </div>
 
-
                             <button
                                 type="button"
                                 className="export-modal-close"
-                                onClick={
-                                    closeExportModal
-                                }
+                                onClick={closeExportModal}
                                 disabled={
                                     exportingPdf ||
                                     exportingExcel
@@ -1186,7 +851,6 @@ function ExpenseList({ onEdit }) {
 
                         </div>
 
-
                         {/* EXPORT SCOPE */}
 
                         <div className="export-modal-section">
@@ -1195,21 +859,17 @@ function ExpenseList({ onEdit }) {
                                 What do you want to export?
                             </label>
 
-
                             <div className="export-scope-options">
-
 
                                 {/* ALL */}
 
                                 <button
                                     type="button"
-                                    className={
-                                        `export-scope-option ${
-                                            exportScope === "all"
-                                                ? "active"
-                                                : ""
-                                        }`
-                                    }
+                                    className={`export-scope-option ${
+                                        exportScope === "all"
+                                            ? "active"
+                                            : ""
+                                    }`}
                                     onClick={() =>
                                         setExportScope(
                                             "all"
@@ -1220,7 +880,6 @@ function ExpenseList({ onEdit }) {
                                     <span className="export-option-icon">
                                         📋
                                     </span>
-
 
                                     <span>
 
@@ -1236,18 +895,15 @@ function ExpenseList({ onEdit }) {
 
                                 </button>
 
-
                                 {/* MONTH */}
 
                                 <button
                                     type="button"
-                                    className={
-                                        `export-scope-option ${
-                                            exportScope === "month"
-                                                ? "active"
-                                                : ""
-                                        }`
-                                    }
+                                    className={`export-scope-option ${
+                                        exportScope === "month"
+                                            ? "active"
+                                            : ""
+                                    }`}
                                     onClick={() =>
                                         setExportScope(
                                             "month"
@@ -1258,7 +914,6 @@ function ExpenseList({ onEdit }) {
                                     <span className="export-option-icon">
                                         📅
                                     </span>
-
 
                                     <span>
 
@@ -1274,18 +929,15 @@ function ExpenseList({ onEdit }) {
 
                                 </button>
 
-
                                 {/* YEAR */}
 
                                 <button
                                     type="button"
-                                    className={
-                                        `export-scope-option ${
-                                            exportScope === "year"
-                                                ? "active"
-                                                : ""
-                                        }`
-                                    }
+                                    className={`export-scope-option ${
+                                        exportScope === "year"
+                                            ? "active"
+                                            : ""
+                                    }`}
                                     onClick={() =>
                                         setExportScope(
                                             "year"
@@ -1296,7 +948,6 @@ function ExpenseList({ onEdit }) {
                                     <span className="export-option-icon">
                                         🗓️
                                     </span>
-
 
                                     <span>
 
@@ -1316,7 +967,6 @@ function ExpenseList({ onEdit }) {
 
                         </div>
 
-
                         {/* MONTH + YEAR */}
 
                         {exportScope === "month" && (
@@ -1330,9 +980,7 @@ function ExpenseList({ onEdit }) {
                                     </label>
 
                                     <select
-                                        value={
-                                            exportMonth
-                                        }
+                                        value={exportMonth}
                                         onChange={(e) =>
                                             setExportMonth(
                                                 Number(
@@ -1394,7 +1042,6 @@ function ExpenseList({ onEdit }) {
 
                                 </div>
 
-
                                 <div className="export-field">
 
                                     <label>
@@ -1402,9 +1049,7 @@ function ExpenseList({ onEdit }) {
                                     </label>
 
                                     <select
-                                        value={
-                                            exportYear
-                                        }
+                                        value={exportYear}
                                         onChange={(e) =>
                                             setExportYear(
                                                 Number(
@@ -1421,23 +1066,17 @@ function ExpenseList({ onEdit }) {
                                             (_, index) => {
 
                                                 const year =
-                                                    new Date().getFullYear()
-                                                    - 3
-                                                    + index;
+                                                    new Date().getFullYear() -
+                                                    3 +
+                                                    index;
 
                                                 return (
-
                                                     <option
-                                                        key={
-                                                            year
-                                                        }
-                                                        value={
-                                                            year
-                                                        }
+                                                        key={year}
+                                                        value={year}
                                                     >
                                                         {year}
                                                     </option>
-
                                                 );
 
                                             }
@@ -1450,7 +1089,6 @@ function ExpenseList({ onEdit }) {
                             </div>
 
                         )}
-
 
                         {/* YEAR */}
 
@@ -1465,9 +1103,7 @@ function ExpenseList({ onEdit }) {
                                     </label>
 
                                     <select
-                                        value={
-                                            exportYear
-                                        }
+                                        value={exportYear}
                                         onChange={(e) =>
                                             setExportYear(
                                                 Number(
@@ -1484,23 +1120,17 @@ function ExpenseList({ onEdit }) {
                                             (_, index) => {
 
                                                 const year =
-                                                    new Date().getFullYear()
-                                                    - 3
-                                                    + index;
+                                                    new Date().getFullYear() -
+                                                    3 +
+                                                    index;
 
                                                 return (
-
                                                     <option
-                                                        key={
-                                                            year
-                                                        }
-                                                        value={
-                                                            year
-                                                        }
+                                                        key={year}
+                                                        value={year}
                                                     >
                                                         {year}
                                                     </option>
-
                                                 );
 
                                             }
@@ -1514,7 +1144,6 @@ function ExpenseList({ onEdit }) {
 
                         )}
 
-
                         {/* FORMAT */}
 
                         <div className="export-modal-section">
@@ -1523,55 +1152,43 @@ function ExpenseList({ onEdit }) {
                                 Export Format
                             </label>
 
-
                             <div className="export-format-options">
-
 
                                 <button
                                     type="button"
-                                    className={
-                                        `export-format-option ${
-                                            exportFormat === "pdf"
-                                                ? "active"
-                                                : ""
-                                        }`
-                                    }
+                                    className={`export-format-option ${
+                                        exportFormat === "pdf"
+                                            ? "active"
+                                            : ""
+                                    }`}
                                     onClick={() =>
                                         setExportFormat(
                                             "pdf"
                                         )
                                     }
                                 >
-
                                     📄 PDF
-
                                 </button>
-
 
                                 <button
                                     type="button"
-                                    className={
-                                        `export-format-option ${
-                                            exportFormat === "excel"
-                                                ? "active"
-                                                : ""
-                                        }`
-                                    }
+                                    className={`export-format-option ${
+                                        exportFormat === "excel"
+                                            ? "active"
+                                            : ""
+                                    }`}
                                     onClick={() =>
                                         setExportFormat(
                                             "excel"
                                         )
                                     }
                                 >
-
                                     📊 Excel
-
                                 </button>
 
                             </div>
 
                         </div>
-
 
                         {/* ACTIONS */}
 
@@ -1580,9 +1197,7 @@ function ExpenseList({ onEdit }) {
                             <button
                                 type="button"
                                 className="export-cancel-button"
-                                onClick={
-                                    closeExportModal
-                                }
+                                onClick={closeExportModal}
                                 disabled={
                                     exportingPdf ||
                                     exportingExcel
@@ -1590,7 +1205,6 @@ function ExpenseList({ onEdit }) {
                             >
                                 Cancel
                             </button>
-
 
                             <button
                                 type="button"
@@ -1609,8 +1223,7 @@ function ExpenseList({ onEdit }) {
                                     ? "Exporting..."
                                     : "Export " +
                                         (
-                                            exportFormat ===
-                                            "pdf"
+                                            exportFormat === "pdf"
                                                 ? "PDF"
                                                 : "Excel"
                                         )}
@@ -1625,18 +1238,13 @@ function ExpenseList({ onEdit }) {
 
             )}
 
-
-            {/* =================================
-                DELETE CONFIRMATION MODAL
-            ================================= */}
+            {/* DELETE CONFIRMATION MODAL */}
 
             {deleteModalOpen && (
 
                 <div
                     className="delete-modal-overlay"
-                    onClick={
-                        closeDeleteModal
-                    }
+                    onClick={closeDeleteModal}
                 >
 
                     <div
@@ -1646,14 +1254,9 @@ function ExpenseList({ onEdit }) {
                         }
                     >
 
-                        {/* DELETE ICON */}
-
                         <div className="delete-modal-icon">
                             🗑️
                         </div>
-
-
-                        {/* CONTENT */}
 
                         <div className="delete-modal-content">
 
@@ -1669,22 +1272,16 @@ function ExpenseList({ onEdit }) {
 
                         </div>
 
-
-                        {/* ACTIONS */}
-
                         <div className="delete-modal-actions">
 
                             <button
                                 type="button"
                                 className="delete-modal-cancel"
-                                onClick={
-                                    closeDeleteModal
-                                }
+                                onClick={closeDeleteModal}
                                 disabled={deleting}
                             >
                                 Cancel
                             </button>
-
 
                             <button
                                 type="button"
@@ -1694,12 +1291,9 @@ function ExpenseList({ onEdit }) {
                                 }
                                 disabled={deleting}
                             >
-
                                 {deleting
                                     ? "Deleting..."
-                                    : "Delete Expense"
-                                }
-
+                                    : "Delete Expense"}
                             </button>
 
                         </div>
@@ -1711,10 +1305,7 @@ function ExpenseList({ onEdit }) {
             )}
 
         </div>
-
     );
-
 }
-
 
 export default ExpenseList;

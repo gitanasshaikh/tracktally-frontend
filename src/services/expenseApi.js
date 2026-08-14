@@ -1,17 +1,11 @@
-const API_URL = "http://localhost:8080/expenses";
+const API_URL = `${import.meta.env.VITE_API_URL}/expenses`;
 
-export const addExpense = async (expense) => {
-    const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(expense)
-    });
+export const getExpenses = async () => {
+    const response = await fetch(API_URL);
 
     if (!response.ok) {
-        throw new Error("Failed to add expense");
+        throw new Error("Failed to fetch expenses");
     }
 
-    return await response.json();
+    return response.json();
 };
