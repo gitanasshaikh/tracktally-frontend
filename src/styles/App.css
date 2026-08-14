@@ -10642,3 +10642,94 @@ body.dark .expense-filters input[type="date"]::-webkit-datetime-edit-text {
 
     -webkit-text-fill-color: #9ca3af !important;
 }
+
+
+
+/* ========================================
+   DASHBOARD BACKGROUND REFRESH
+   ======================================== */
+
+.dashboard-refreshing {
+    position: fixed;
+    top: 78px;
+    right: 20px;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 9px 14px;
+
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 12px;
+
+    background: var(--card-bg, #ffffff);
+    color: var(--text-color, #374151);
+
+    font-size: 13px;
+    font-weight: 600;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* SMALL ANIMATED DOT */
+
+.refresh-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #6366f1;
+
+    animation: dashboardRefreshPulse 1s infinite;
+}
+
+
+@keyframes dashboardRefreshPulse {
+
+    0% {
+        opacity: 0.35;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.35;
+        transform: scale(0.8);
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .dashboard-refreshing {
+        top: 70px;
+        right: 12px;
+
+        padding: 8px 11px;
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* DARK MODE */
+
+body.dark .dashboard-refreshing,
+.dark .dashboard-refreshing {
+    background: var(--card-bg, #1f2937);
+    border-color: var(--border-color, #374151);
+    color: var(--text-color, #f3f4f6);
+}

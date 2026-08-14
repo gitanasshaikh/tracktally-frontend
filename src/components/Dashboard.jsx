@@ -68,17 +68,87 @@ function Dashboard() {
 
 
     // ========================================
+    // CACHE KEY
+    // ========================================
+
+    const CACHE_KEY =
+        "tracktally_dashboard_expenses";
+
+
+    // ========================================
+    // LOAD CACHED DATA FIRST
+    // ========================================
+
+    const getCachedExpenses = () => {
+
+        try {
+
+            const cached =
+                sessionStorage.getItem(
+                    CACHE_KEY
+                );
+
+            if (!cached) {
+                return [];
+            }
+
+            const parsed =
+                JSON.parse(cached);
+
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "Cache read error:",
+                error
+            );
+
+            return [];
+
+        }
+
+    };
+
+
+    // ========================================
     // STATES
     // ========================================
 
     const [expenses, setExpenses] =
-        useState([]);
+        useState(
+            getCachedExpenses
+        );
+
 
     const [selectedMonth, setSelectedMonth] =
         useState(currentMonth);
 
+
+    /*
+     * If cached data exists:
+     *
+     * Dashboard is already usable.
+     *
+     * API will update it in background.
+     *
+     * If no cached data exists:
+     *
+     * We show the small initial loading state.
+     */
+
     const [loading, setLoading] =
-        useState(true);
+        useState(
+            () =>
+                getCachedExpenses().length === 0
+        );
+
+
+    const [refreshing, setRefreshing] =
+        useState(false);
+
 
     const [error, setError] =
         useState("");
@@ -94,14 +164,64 @@ function Dashboard() {
 
         const loadExpenses = async () => {
 
-            try {
+            const hasCachedData =
+                getCachedExpenses().length > 0;
+
+
+            // ====================================
+            // LOADING STATE
+            // ====================================
+
+            if (hasCachedData) {
+
+                // Dashboard already visible.
+                // Don't block the screen.
+
+                setRefreshing(true);
+
+            } else {
+
+                // First ever load.
 
                 setLoading(true);
-                setError("");
 
+            }
+
+
+            setError("");
+
+
+            // ====================================
+            // ABORT CONTROLLER
+            // ====================================
+
+            const controller =
+                new AbortController();
+
+
+            // ====================================
+            // TIMEOUT
+            // ====================================
+
+            const timeout =
+                setTimeout(() => {
+
+                    controller.abort();
+
+                }, 5000);
+
+
+            try {
+
+                // ====================================
+                // GET EXPENSES
+                // ====================================
 
                 const response =
-                    await fetch(API);
+                    await fetch(API, {
+                        signal:
+                            controller.signal
+                    });
 
 
                 if (!response.ok) {
@@ -113,9 +233,17 @@ function Dashboard() {
                 }
 
 
+                // ====================================
+                // JSON
+                // ====================================
+
                 const data =
                     await response.json();
 
+
+                // ====================================
+                // VALIDATE
+                // ====================================
 
                 if (!Array.isArray(data)) {
 
@@ -126,12 +254,39 @@ function Dashboard() {
                 }
 
 
+                // ====================================
+                // UPDATE STATE
+                // ====================================
+
                 if (!cancelled) {
 
                     setExpenses(data);
 
-                }
 
+                    // =================================
+                    // SAVE CACHE
+                    // =================================
+
+                    try {
+
+                        sessionStorage.setItem(
+                            CACHE_KEY,
+                            JSON.stringify(data)
+                        );
+
+                    } catch (cacheError) {
+
+                        console.warn(
+                            "Unable to save dashboard cache:",
+                            cacheError
+                        );
+
+                    }
+
+
+                    setError("");
+
+                }
 
             } catch (error) {
 
@@ -143,18 +298,58 @@ function Dashboard() {
 
                 if (!cancelled) {
 
-                    setError(
-                        "Unable to load dashboard data."
-                    );
+                    if (
+                        error.name ===
+                        "AbortError"
+                    ) {
+
+                        /*
+                         * IMPORTANT:
+                         *
+                         * If cached data exists,
+                         * keep showing it.
+                         */
+
+                        if (
+                            expenses.length === 0
+                        ) {
+
+                            setError(
+                                "Dashboard request timed out. Please try again."
+                            );
+
+                        }
+
+                    } else {
+
+                        /*
+                         * Don't destroy existing
+                         * dashboard data if refresh fails.
+                         */
+
+                        if (
+                            expenses.length === 0
+                        ) {
+
+                            setError(
+                                "Unable to load dashboard data."
+                            );
+
+                        }
+
+                    }
 
                 }
 
-
             } finally {
+
+                clearTimeout(timeout);
+
 
                 if (!cancelled) {
 
                     setLoading(false);
+                    setRefreshing(false);
 
                 }
 
@@ -182,11 +377,16 @@ function Dashboard() {
     const totalExpense = useMemo(() => {
 
         return expenses.reduce(
-            (sum, expense) =>
-                sum +
-                Number(
-                    expense.amount || 0
-                ),
+            (sum, expense) => {
+
+                return (
+                    sum +
+                    Number(
+                        expense.amount || 0
+                    )
+                );
+
+            },
             0
         );
 
@@ -205,106 +405,130 @@ function Dashboard() {
     // CATEGORY DATA
     // ========================================
 
-    const categoryData = useMemo(() => {
+    const categoryData =
+        useMemo(() => {
 
-        const categoryMap = {};
-
-
-        expenses.forEach((expense) => {
-
-            const category =
-                expense.category ||
-                "Other";
-
-            const amount =
-                Number(
-                    expense.amount || 0
-                );
+            const categoryMap = {};
 
 
-            categoryMap[category] =
-                (categoryMap[category] || 0) +
-                amount;
+            expenses.forEach((expense) => {
 
-        });
+                const category =
+                    expense.category ||
+                    "Other";
 
 
-        return Object.entries(
-            categoryMap
-        ).map(
-            ([name, value]) => ({
-                name,
-                value
-            })
-        );
+                const amount =
+                    Number(
+                        expense.amount || 0
+                    );
 
-    }, [expenses]);
+
+                categoryMap[category] =
+                    (
+                        categoryMap[category] ||
+                        0
+                    ) + amount;
+
+            });
+
+
+            return Object.entries(
+                categoryMap
+            ).map(
+                ([name, value]) => ({
+                    name,
+                    value
+                })
+            );
+
+        }, [expenses]);
 
 
     // ========================================
     // MONTHLY DATA
     // ========================================
 
-    const monthlyData = useMemo(() => {
+    const monthlyData =
+        useMemo(() => {
 
-        const amounts =
-            Array(12).fill(0);
-
-
-        expenses.forEach((expense) => {
-
-            if (!expense.date) {
-                return;
-            }
+            const amounts =
+                Array(12).fill(0);
 
 
-            const parts =
-                String(
-                    expense.date
-                ).split("-");
+            expenses.forEach((expense) => {
+
+                if (!expense.date) {
+                    return;
+                }
 
 
-            if (parts.length !== 3) {
-                return;
-            }
+                /*
+                 * Avoid new Date()
+                 *
+                 * This prevents timezone
+                 * related date problems.
+                 */
+
+                const parts =
+                    String(
+                        expense.date
+                    ).split("-");
 
 
-            const year =
-                Number(parts[0]);
+                if (
+                    parts.length !== 3
+                ) {
 
-            const month =
-                Number(parts[1]);
+                    return;
+
+                }
 
 
-            if (
-                year === currentYear &&
-                month >= 1 &&
-                month <= 12
-            ) {
+                const year =
+                    Number(parts[0]);
 
-                amounts[month - 1] +=
-                    Number(
+
+                const month =
+                    Number(parts[1]);
+
+
+                if (
+                    year === currentYear &&
+                    month >= 1 &&
+                    month <= 12
+                ) {
+
+                    amounts[
+                        month - 1
+                    ] += Number(
                         expense.amount || 0
                     );
 
-            }
+                }
 
-        });
+            });
 
 
-        return months.map(
-            (month, index) => ({
+            return months.map(
+                (month, index) => ({
 
-                month:
-                    month.substring(0, 3),
+                    month:
+                        month.substring(
+                            0,
+                            3
+                        ),
 
-                amount:
-                    amounts[index]
+                    amount:
+                        amounts[index]
 
-            })
-        );
+                })
+            );
 
-    }, [expenses, currentYear]);
+        }, [
+            expenses,
+            currentYear
+        ]);
 
 
     // ========================================
@@ -323,14 +547,15 @@ function Dashboard() {
 
     const formatMoney = (amount) => {
 
-        return Number(amount || 0)
-            .toLocaleString(
-                "en-IN",
-                {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }
-            );
+        return Number(
+            amount || 0
+        ).toLocaleString(
+            "en-IN",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
 
     };
 
@@ -385,12 +610,70 @@ function Dashboard() {
 
 
     // ========================================
+    // INITIAL LOADING
+    // ========================================
+
+    /*
+     * Only show this when there is NO cached
+     * data at all.
+     *
+     * Once dashboard has data, API refresh
+     * will never replace the whole screen
+     * with a loader.
+     */
+
+    if (
+        loading &&
+        expenses.length === 0
+    ) {
+
+        return (
+
+            <div className="dashboard">
+
+                <div className="dashboard-loading">
+
+                    <div className="loading-spinner"></div>
+
+                    <p>
+                        Loading dashboard...
+                    </p>
+
+                </div>
+
+            </div>
+
+        );
+
+    }
+
+
+    // ========================================
     // UI
     // ========================================
 
     return (
 
         <div className="dashboard">
+
+
+            {/* ==================================
+                BACKGROUND REFRESH
+            ================================== */}
+
+            {refreshing && (
+
+                <div className="dashboard-refreshing">
+
+                    <div className="refresh-dot"></div>
+
+                    <span>
+                        Updating data...
+                    </span>
+
+                </div>
+
+            )}
 
 
             {/* ==================================
@@ -420,7 +703,9 @@ function Dashboard() {
                 <button
                     className="dashboard-add-btn"
                     onClick={() =>
-                        navigate("/add-expense")
+                        navigate(
+                            "/add-expense"
+                        )
                     }
                 >
 
@@ -444,25 +729,6 @@ function Dashboard() {
                 <div className="dashboard-error">
 
                     ⚠️ {error}
-
-                </div>
-
-            )}
-
-
-            {/* ==================================
-                BACKGROUND LOADING
-            ================================== */}
-
-            {loading && (
-
-                <div className="dashboard-background-loading">
-
-                    <div className="loading-spinner"></div>
-
-                    <span>
-                        Updating dashboard...
-                    </span>
 
                 </div>
 
@@ -564,7 +830,10 @@ function Dashboard() {
                             {
                                 months[
                                     selectedMonth - 1
-                                ].substring(0, 3)
+                                ].substring(
+                                    0,
+                                    3
+                                )
                             }
 
                         </div>
@@ -648,7 +917,9 @@ function Dashboard() {
 
                             <option
                                 key={month}
-                                value={index + 1}
+                                value={
+                                    index + 1
+                                }
                             >
                                 {month}
                             </option>
@@ -679,7 +950,8 @@ function Dashboard() {
                                 ].toUpperCase()
                             }
 
-                            {" "}ANALYTICS
+                            {" "}
+                            ANALYTICS
 
                         </span>
 
@@ -745,7 +1017,9 @@ function Dashboard() {
                         >
 
                             <BarChart
-                                data={monthlyData}
+                                data={
+                                    monthlyData
+                                }
                                 margin={{
                                     top: 20,
                                     right: 10,
@@ -774,26 +1048,36 @@ function Dashboard() {
                                     axisLine={false}
                                     tickLine={false}
                                     width={42}
-                                    tickFormatter={(value) => {
+                                    tickFormatter={(
+                                        value
+                                    ) => {
 
                                         if (
-                                            value >= 100000
+                                            value >=
+                                            100000
                                         ) {
 
                                             return `₹${(
-                                                value / 100000
-                                            ).toFixed(1)}L`;
+                                                value /
+                                                100000
+                                            ).toFixed(
+                                                1
+                                            )}L`;
 
                                         }
 
 
                                         if (
-                                            value >= 1000
+                                            value >=
+                                            1000
                                         ) {
 
                                             return `₹${(
-                                                value / 1000
-                                            ).toFixed(0)}k`;
+                                                value /
+                                                1000
+                                            ).toFixed(
+                                                0
+                                            )}k`;
 
                                         }
 
@@ -823,7 +1107,9 @@ function Dashboard() {
                                         3,
                                         3
                                     ]}
-                                    animationDuration={700}
+                                    animationDuration={
+                                        500
+                                    }
                                     animationEasing="ease-out"
                                 />
 
@@ -845,7 +1131,9 @@ function Dashboard() {
             <div className="dashboard-bottom-grid">
 
 
-                {/* CATEGORY CHART */}
+                {/* ==================================
+                    CATEGORY CHART
+                ================================== */}
 
                 <div className="dashboard-chart-card category-card">
 
@@ -862,7 +1150,8 @@ function Dashboard() {
                             </h3>
 
                             <p>
-                                See where your money is going.
+                                See where your money
+                                is going.
                             </p>
 
                         </div>
@@ -897,7 +1186,9 @@ function Dashboard() {
                                 <PieChart>
 
                                     <Pie
-                                        data={categoryData}
+                                        data={
+                                            categoryData
+                                        }
                                         dataKey="value"
                                         nameKey="name"
                                         cx="50%"
@@ -906,12 +1197,17 @@ function Dashboard() {
                                         innerRadius="60%"
                                         paddingAngle={4}
                                         cornerRadius={6}
-                                        animationDuration={700}
+                                        animationDuration={
+                                            500
+                                        }
                                         animationEasing="ease-out"
                                     >
 
                                         {categoryData.map(
-                                            (_, index) => (
+                                            (
+                                                _,
+                                                index
+                                            ) => (
 
                                                 <Cell
                                                     key={
@@ -943,7 +1239,8 @@ function Dashboard() {
                                         verticalAlign="bottom"
                                         iconType="circle"
                                         wrapperStyle={{
-                                            fontSize: "12px"
+                                            fontSize:
+                                                "12px"
                                         }}
                                     />
 
@@ -958,7 +1255,9 @@ function Dashboard() {
                 </div>
 
 
-                {/* CATEGORY SUMMARY */}
+                {/* ==================================
+                    CATEGORY SUMMARY
+                ================================== */}
 
                 <div className="dashboard-chart-card category-summary">
 
@@ -975,7 +1274,8 @@ function Dashboard() {
                             </h3>
 
                             <p>
-                                Total spending by category.
+                                Total spending by
+                                category.
                             </p>
 
                         </div>
@@ -994,7 +1294,10 @@ function Dashboard() {
                         <div className="category-grid">
 
                             {categoryData.map(
-                                (category, index) => (
+                                (
+                                    category,
+                                    index
+                                ) => (
 
                                     <div
                                         className="category-item"
