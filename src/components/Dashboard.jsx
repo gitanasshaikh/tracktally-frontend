@@ -21,9 +21,17 @@ function Dashboard() {
     // API
     // ========================================
 
-    const API = `${import.meta.env.VITE_API_URL}/expenses`;
+    const API =
+        `${import.meta.env.VITE_API_URL}/expenses`;
 
-    const currentYear = new Date().getFullYear();
+
+    // ========================================
+    // CONSTANTS
+    // ========================================
+
+    const currentYear =
+        new Date().getFullYear();
+
 
     const months = [
         "January",
@@ -41,27 +49,47 @@ function Dashboard() {
     ];
 
 
+    const chartColors = [
+        "#6366f1",
+        "#8b5cf6",
+        "#ec4899",
+        "#f59e0b",
+        "#10b981",
+        "#06b6d4",
+        "#ef4444",
+        "#84cc16"
+    ];
+
+
     // ========================================
     // STATES
     // ========================================
 
-    const [totalExpense, setTotalExpense] = useState(0);
+    const [totalExpense, setTotalExpense] =
+        useState(0);
 
-    const [expenseCount, setExpenseCount] = useState(0);
+    const [expenseCount, setExpenseCount] =
+        useState(0);
 
-    const [categoryData, setCategoryData] = useState([]);
+    const [categoryData, setCategoryData] =
+        useState([]);
 
-    const [monthlyTotal, setMonthlyTotal] = useState(0);
+    const [monthlyTotal, setMonthlyTotal] =
+        useState(0);
 
-    const [monthlyData, setMonthlyData] = useState([]);
+    const [monthlyData, setMonthlyData] =
+        useState([]);
 
-    const [selectedMonth, setSelectedMonth] = useState(
-        new Date().getMonth() + 1
-    );
+    const [selectedMonth, setSelectedMonth] =
+        useState(
+            new Date().getMonth() + 1
+        );
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] =
+        useState(true);
 
-    const [error, setError] = useState("");
+    const [error, setError] =
+        useState("");
 
 
     // ========================================
@@ -72,7 +100,7 @@ function Dashboard() {
 
         loadDashboard();
 
-    }, [selectedMonth]);
+    }, []);
 
 
     // ========================================
@@ -88,68 +116,105 @@ function Dashboard() {
 
 
             // ====================================
+            // GET ALL EXPENSES
+            // ====================================
+
+            const response =
+                await fetch(API);
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `Failed to load expenses: ${response.status}`
+                );
+
+            }
+
+
+            const expenses =
+                await response.json();
+
+
+            // Make sure response is an array
+
+            if (!Array.isArray(expenses)) {
+
+                throw new Error(
+                    "Invalid expenses response"
+                );
+
+            }
+
+
+            // ====================================
             // TOTAL EXPENSE
             // ====================================
 
-            const totalResponse =
-                await fetch(`${API}/total`);
-
-            if (!totalResponse.ok) {
-                throw new Error(
-                    "Failed to load total expense"
+            const total =
+                expenses.reduce(
+                    (sum, expense) =>
+                        sum +
+                        Number(
+                            expense.amount || 0
+                        ),
+                    0
                 );
-            }
 
-            const totalData =
-                await totalResponse.json();
 
-            setTotalExpense(
-                Number(totalData || 0)
-            );
+            setTotalExpense(total);
 
 
             // ====================================
             // EXPENSE COUNT
             // ====================================
 
-            const countResponse =
-                await fetch(`${API}/count`);
-
-            if (!countResponse.ok) {
-                throw new Error(
-                    "Failed to load expense count"
-                );
-            }
-
-            const countData =
-                await countResponse.json();
-
             setExpenseCount(
-                Number(countData || 0)
+                expenses.length
             );
 
 
             // ====================================
-            // CATEGORY DATA
+            // CATEGORY TOTAL
             // ====================================
 
-            const categoryResponse =
-                await fetch(`${API}/category-total`);
+            const categoryMap = {};
 
-            if (!categoryResponse.ok) {
-                throw new Error(
-                    "Failed to load category data"
-                );
-            }
 
-            const categoryResult =
-                await categoryResponse.json();
+            expenses.forEach((expense) => {
+
+                const category =
+                    expense.category ||
+                    "Other";
+
+                const amount =
+                    Number(
+                        expense.amount || 0
+                    );
+
+
+                if (!categoryMap[category]) {
+
+                    categoryMap[category] = 0;
+
+                }
+
+
+                categoryMap[category] += amount;
+
+            });
+
 
             const formattedCategoryData =
-                categoryResult.map((item) => ({
-                    name: item[0],
-                    value: Number(item[1] || 0)
-                }));
+                Object.entries(
+                    categoryMap
+                ).map(
+                    ([name, value]) => ({
+                        name,
+                        value
+                    })
+                );
+
 
             setCategoryData(
                 formattedCategoryData
@@ -157,72 +222,38 @@ function Dashboard() {
 
 
             // ====================================
-            // MONTHLY TOTAL
-            // ====================================
-
-            const monthlyResponse =
-                await fetch(
-                    `${API}/monthly-total/${selectedMonth}`
-                );
-
-            if (!monthlyResponse.ok) {
-                throw new Error(
-                    "Failed to load monthly total"
-                );
-            }
-
-            const monthlyResult =
-                await monthlyResponse.json();
-
-            setMonthlyTotal(
-                Number(monthlyResult || 0)
-            );
-
-
-            // ====================================
-            // YEARLY DATA
-            // ====================================
-
-            const yearlyResponse =
-                await fetch(
-                    `${API}/yearly-total/${currentYear}`
-                );
-
-            if (!yearlyResponse.ok) {
-                throw new Error(
-                    "Failed to load yearly data"
-                );
-            }
-
-            const yearlyResult =
-                await yearlyResponse.json();
-
-
-            // ====================================
-            // CREATE 12 MONTHS
+            // MONTHLY DATA
             // ====================================
 
             const amounts =
                 Array(12).fill(0);
 
 
-            yearlyResult.forEach((item) => {
+            expenses.forEach((expense) => {
 
-                const monthNumber =
-                    Number(item[0]);
-
-                const amount =
-                    Number(item[1] || 0);
+                if (!expense.date) {
+                    return;
+                }
 
 
-                if (
-                    monthNumber >= 1 &&
-                    monthNumber <= 12
-                ) {
+                const date =
+                    new Date(expense.date);
 
-                    amounts[
-                        monthNumber - 1
-                    ] = amount;
+
+                const year =
+                    date.getFullYear();
+
+
+                const month =
+                    date.getMonth();
+
+
+                if (year === currentYear) {
+
+                    amounts[month] +=
+                        Number(
+                            expense.amount || 0
+                        );
 
                 }
 
@@ -230,21 +261,34 @@ function Dashboard() {
 
 
             // ====================================
-            // CHART DATA
+            // CREATE CHART DATA
             // ====================================
 
             const chartData =
-                months.map((month, index) => ({
-                    month:
-                        month.substring(0, 3),
+                months.map(
+                    (month, index) => ({
 
-                    amount:
-                        amounts[index]
-                }));
+                        month:
+                            month.substring(0, 3),
+
+                        amount:
+                            amounts[index]
+
+                    })
+                );
 
 
             setMonthlyData(
                 chartData
+            );
+
+
+            // ====================================
+            // SELECTED MONTH TOTAL
+            // ====================================
+
+            setMonthlyTotal(
+                amounts[selectedMonth - 1] || 0
             );
 
 
@@ -255,9 +299,11 @@ function Dashboard() {
                 error
             );
 
+
             setError(
                 "Unable to load dashboard data."
             );
+
 
         } finally {
 
@@ -266,6 +312,30 @@ function Dashboard() {
         }
 
     };
+
+
+    // ========================================
+    // UPDATE MONTH TOTAL
+    // ========================================
+
+    useEffect(() => {
+
+        if (
+            monthlyData.length === 12
+        ) {
+
+            setMonthlyTotal(
+                monthlyData[
+                    selectedMonth - 1
+                ]?.amount || 0
+            );
+
+        }
+
+    }, [
+        selectedMonth,
+        monthlyData
+    ]);
 
 
     // ========================================
@@ -301,8 +371,11 @@ function Dashboard() {
             !payload ||
             !payload.length
         ) {
+
             return null;
+
         }
+
 
         return (
 
@@ -317,10 +390,12 @@ function Dashboard() {
                 )}
 
                 <strong>
+
                     ₹
                     {formatMoney(
                         payload[0].value
                     )}
+
                 </strong>
 
             </div>
@@ -355,18 +430,6 @@ function Dashboard() {
         );
 
     }
-
-
-    // ========================================
-    // SELECTED MONTH DATA CHECK
-    // ========================================
-
-    const selectedMonthAmount =
-        monthlyData[selectedMonth - 1]?.amount || 0;
-
-
-    const hasSelectedMonthData =
-        Number(selectedMonthAmount) > 0;
 
 
     // ========================================
@@ -467,10 +530,12 @@ function Dashboard() {
                         </h3>
 
                         <p>
+
                             ₹
                             {formatMoney(
                                 totalExpense
                             )}
+
                         </p>
 
                         <span>
@@ -548,18 +613,22 @@ function Dashboard() {
                         </h3>
 
                         <p>
+
                             ₹
                             {formatMoney(
                                 monthlyTotal
                             )}
+
                         </p>
 
                         <span>
+
                             {
                                 months[
                                     selectedMonth - 1
                                 ]
                             }
+
                         </span>
 
                     </div>
@@ -598,7 +667,9 @@ function Dashboard() {
                     onChange={(e) => {
 
                         setSelectedMonth(
-                            Number(e.target.value)
+                            Number(
+                                e.target.value
+                            )
                         );
 
                     }}
@@ -633,7 +704,15 @@ function Dashboard() {
                     <div>
 
                         <span className="section-label">
-                            {months[selectedMonth - 1].toUpperCase()} ANALYTICS
+
+                            {
+                                months[
+                                    selectedMonth - 1
+                                ].toUpperCase()
+                            }
+
+                            {" "}ANALYTICS
+
                         </span>
 
                         <h3>
@@ -641,9 +720,18 @@ function Dashboard() {
                         </h3>
 
                         <p>
+
                             Spending for{" "}
-                            {months[selectedMonth - 1]}{" "}
+
+                            {
+                                months[
+                                    selectedMonth - 1
+                                ]
+                            }
+
+                            {" "}
                             {currentYear}.
+
                         </p>
 
                     </div>
@@ -662,10 +750,20 @@ function Dashboard() {
                             </div>
 
                             <p>
-                                No expense data available for{" "}
+
+                                No expense data available
+                                for{" "}
+
                                 <strong>
-                                    {months[selectedMonth - 1]}
+
+                                    {
+                                        months[
+                                            selectedMonth - 1
+                                        ]
+                                    }
+
                                 </strong>
+
                             </p>
 
                         </div>
@@ -715,20 +813,24 @@ function Dashboard() {
                                         ) {
 
                                             return `₹${(
-                                                value / 100000
+                                                value /
+                                                100000
                                             ).toFixed(1)}L`;
 
                                         }
+
 
                                         if (
                                             value >= 1000
                                         ) {
 
                                             return `₹${(
-                                                value / 1000
+                                                value /
+                                                1000
                                             ).toFixed(0)}k`;
 
                                         }
+
 
                                         return `₹${value}`;
 
@@ -834,16 +936,12 @@ function Dashboard() {
                                         data={categoryData}
                                         dataKey="value"
                                         nameKey="name"
-
                                         cx="50%"
                                         cy="46%"
-
                                         outerRadius="80%"
                                         innerRadius="60%"
-
                                         paddingAngle={4}
                                         cornerRadius={6}
-
                                         animationDuration={900}
                                         animationEasing="ease-out"
                                     >
@@ -966,10 +1064,12 @@ function Dashboard() {
 
 
                                         <strong>
+
                                             ₹
                                             {formatMoney(
                                                 category.value
                                             )}
+
                                         </strong>
 
                                     </div>
