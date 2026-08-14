@@ -32,7 +32,6 @@ function Dashboard() {
     const currentYear =
         new Date().getFullYear();
 
-
     const months = [
         "January",
         "February",
@@ -47,7 +46,6 @@ function Dashboard() {
         "November",
         "December"
     ];
-
 
     const chartColors = [
         "#6366f1",
@@ -74,9 +72,6 @@ function Dashboard() {
     const [categoryData, setCategoryData] =
         useState([]);
 
-    const [monthlyTotal, setMonthlyTotal] =
-        useState(0);
-
     const [monthlyData, setMonthlyData] =
         useState([]);
 
@@ -93,6 +88,14 @@ function Dashboard() {
 
 
     // ========================================
+    // SELECTED MONTH TOTAL
+    // ========================================
+
+    const monthlyTotal =
+        monthlyData[selectedMonth - 1]?.amount || 0;
+
+
+    // ========================================
     // LOAD DASHBOARD
     // ========================================
 
@@ -104,7 +107,7 @@ function Dashboard() {
 
 
     // ========================================
-    // DASHBOARD DATA
+    // LOAD EVERYTHING FROM ONE GET REQUEST
     // ========================================
 
     const loadDashboard = async () => {
@@ -116,7 +119,7 @@ function Dashboard() {
 
 
             // ====================================
-            // GET ALL EXPENSES
+            // ONE API REQUEST
             // ====================================
 
             const response =
@@ -136,8 +139,6 @@ function Dashboard() {
                 await response.json();
 
 
-            // Make sure response is an array
-
             if (!Array.isArray(expenses)) {
 
                 throw new Error(
@@ -148,26 +149,21 @@ function Dashboard() {
 
 
             // ====================================
-            // TOTAL EXPENSE
+            // TOTAL + COUNT
             // ====================================
 
-            const total =
-                expenses.reduce(
-                    (sum, expense) =>
-                        sum +
-                        Number(
-                            expense.amount || 0
-                        ),
-                    0
+            let total = 0;
+
+            expenses.forEach((expense) => {
+
+                total += Number(
+                    expense.amount || 0
                 );
+
+            });
 
 
             setTotalExpense(total);
-
-
-            // ====================================
-            // EXPENSE COUNT
-            // ====================================
 
             setExpenseCount(
                 expenses.length
@@ -175,7 +171,7 @@ function Dashboard() {
 
 
             // ====================================
-            // CATEGORY TOTAL
+            // CATEGORY DATA
             // ====================================
 
             const categoryMap = {};
@@ -184,8 +180,7 @@ function Dashboard() {
             expenses.forEach((expense) => {
 
                 const category =
-                    expense.category ||
-                    "Other";
+                    expense.category || "Other";
 
                 const amount =
                     Number(
@@ -193,27 +188,25 @@ function Dashboard() {
                     );
 
 
-                if (!categoryMap[category]) {
-
-                    categoryMap[category] = 0;
-
-                }
-
-
-                categoryMap[category] += amount;
+                categoryMap[category] =
+                    (categoryMap[category] || 0) +
+                    amount;
 
             });
 
 
             const formattedCategoryData =
-                Object.entries(
-                    categoryMap
-                ).map(
-                    ([name, value]) => ({
-                        name,
-                        value
-                    })
-                );
+                Object.entries(categoryMap)
+                    .map(
+                        ([name, value]) => ({
+                            name,
+                            value
+                        })
+                    )
+                    .sort(
+                        (a, b) =>
+                            b.value - a.value
+                    );
 
 
             setCategoryData(
@@ -236,21 +229,30 @@ function Dashboard() {
                 }
 
 
-                const date =
-                    new Date(expense.date);
+                // YYYY-MM-DD
+                const parts =
+                    String(expense.date).split("-");
+
+
+                if (parts.length !== 3) {
+                    return;
+                }
 
 
                 const year =
-                    date.getFullYear();
-
+                    Number(parts[0]);
 
                 const month =
-                    date.getMonth();
+                    Number(parts[1]);
 
 
-                if (year === currentYear) {
+                if (
+                    year === currentYear &&
+                    month >= 1 &&
+                    month <= 12
+                ) {
 
-                    amounts[month] +=
+                    amounts[month - 1] +=
                         Number(
                             expense.amount || 0
                         );
@@ -261,7 +263,7 @@ function Dashboard() {
 
 
             // ====================================
-            // CREATE CHART DATA
+            // CHART DATA
             // ====================================
 
             const chartData =
@@ -283,15 +285,6 @@ function Dashboard() {
             );
 
 
-            // ====================================
-            // SELECTED MONTH TOTAL
-            // ====================================
-
-            setMonthlyTotal(
-                amounts[selectedMonth - 1] || 0
-            );
-
-
         } catch (error) {
 
             console.error(
@@ -304,7 +297,6 @@ function Dashboard() {
                 "Unable to load dashboard data."
             );
 
-
         } finally {
 
             setLoading(false);
@@ -312,30 +304,6 @@ function Dashboard() {
         }
 
     };
-
-
-    // ========================================
-    // UPDATE MONTH TOTAL
-    // ========================================
-
-    useEffect(() => {
-
-        if (
-            monthlyData.length === 12
-        ) {
-
-            setMonthlyTotal(
-                monthlyData[
-                    selectedMonth - 1
-                ]?.amount || 0
-            );
-
-        }
-
-    }, [
-        selectedMonth,
-        monthlyData
-    ]);
 
 
     // ========================================
@@ -406,7 +374,7 @@ function Dashboard() {
 
 
     // ========================================
-    // LOADING SCREEN
+    // LOADING
     // ========================================
 
     if (loading) {
@@ -530,12 +498,10 @@ function Dashboard() {
                         </h3>
 
                         <p>
-
                             ₹
                             {formatMoney(
                                 totalExpense
                             )}
-
                         </p>
 
                         <span>
@@ -613,22 +579,18 @@ function Dashboard() {
                         </h3>
 
                         <p>
-
                             ₹
                             {formatMoney(
                                 monthlyTotal
                             )}
-
                         </p>
 
                         <span>
-
                             {
                                 months[
                                     selectedMonth - 1
                                 ]
                             }
-
                         </span>
 
                     </div>
@@ -664,15 +626,11 @@ function Dashboard() {
 
                 <select
                     value={selectedMonth}
-                    onChange={(e) => {
-
+                    onChange={(e) =>
                         setSelectedMonth(
-                            Number(
-                                e.target.value
-                            )
-                        );
-
-                    }}
+                            Number(e.target.value)
+                        )
+                    }
                 >
 
                     {months.map(
@@ -694,7 +652,7 @@ function Dashboard() {
 
 
             {/* ==================================
-                YEARLY BAR CHART
+                MONTHLY BAR CHART
             ================================== */}
 
             <div className="dashboard-chart-card yearly-chart-card">
@@ -755,13 +713,11 @@ function Dashboard() {
                                 for{" "}
 
                                 <strong>
-
                                     {
                                         months[
                                             selectedMonth - 1
                                         ]
                                     }
-
                                 </strong>
 
                             </p>
@@ -793,14 +749,12 @@ function Dashboard() {
                                     opacity={0.35}
                                 />
 
-
                                 <XAxis
                                     dataKey="month"
                                     axisLine={false}
                                     tickLine={false}
                                     tickMargin={8}
                                 />
-
 
                                 <YAxis
                                     axisLine={false}
@@ -813,30 +767,25 @@ function Dashboard() {
                                         ) {
 
                                             return `₹${(
-                                                value /
-                                                100000
+                                                value / 100000
                                             ).toFixed(1)}L`;
 
                                         }
-
 
                                         if (
                                             value >= 1000
                                         ) {
 
                                             return `₹${(
-                                                value /
-                                                1000
+                                                value / 1000
                                             ).toFixed(0)}k`;
 
                                         }
-
 
                                         return `₹${value}`;
 
                                     }}
                                 />
-
 
                                 <Tooltip
                                     content={
@@ -846,7 +795,6 @@ function Dashboard() {
                                         opacity: 0.08
                                     }}
                                 />
-
 
                                 <Bar
                                     dataKey="amount"
@@ -879,9 +827,7 @@ function Dashboard() {
             <div className="dashboard-bottom-grid">
 
 
-                {/* ==================================
-                    CATEGORY CHART
-                ================================== */}
+                {/* CATEGORY CHART */}
 
                 <div className="dashboard-chart-card category-card">
 
@@ -994,9 +940,7 @@ function Dashboard() {
                 </div>
 
 
-                {/* ==================================
-                    CATEGORY SUMMARY
-                ================================== */}
+                {/* CATEGORY SUMMARY */}
 
                 <div className="dashboard-chart-card category-summary">
 
