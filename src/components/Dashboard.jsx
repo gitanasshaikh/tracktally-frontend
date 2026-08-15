@@ -208,7 +208,7 @@ function Dashboard() {
 
                     controller.abort();
 
-                }, 5000);
+                }, 20000);
 
 
             try {
