@@ -20,13 +20,10 @@ function Home({ theme, setTheme }) {
                 menuRef.current &&
                 !menuRef.current.contains(event.target)
             ) {
-
                 setMenuOpen(false);
-
             }
 
         };
-
 
         if (menuOpen) {
 
@@ -36,7 +33,6 @@ function Home({ theme, setTheme }) {
             );
 
         }
-
 
         return () => {
 
@@ -51,7 +47,7 @@ function Home({ theme, setTheme }) {
 
 
     // ========================================
-    // TOGGLE THEME
+    // THEME
     // ========================================
 
     const toggleTheme = () => {
@@ -82,7 +78,7 @@ function Home({ theme, setTheme }) {
 
 
             {/* =====================================
-                HOME NAVIGATION
+                NAVBAR
             ===================================== */}
 
             <header className="home-navbar">
@@ -100,7 +96,7 @@ function Home({ theme, setTheme }) {
                         💰
                     </span>
 
-                    <span>
+                    <span className="home-brand-text">
 
                         <strong>
                             TrackTally
@@ -122,9 +118,13 @@ function Home({ theme, setTheme }) {
                     ref={menuRef}
                 >
 
-
                     <button
-                        className="home-menu-button"
+                        type="button"
+                        className={`home-menu-button ${
+                            menuOpen
+                                ? "menu-open"
+                                : ""
+                        }`}
                         onClick={() =>
                             setMenuOpen(
                                 previous =>
@@ -150,9 +150,7 @@ function Home({ theme, setTheme }) {
                     </button>
 
 
-                    {/* =================================
-                        MENU PANEL
-                    ================================= */}
+                    {/* MENU PANEL */}
 
                     {menuOpen && (
 
@@ -199,26 +197,26 @@ function Home({ theme, setTheme }) {
                             </Link>
 
 
-                            {/* DASHBOARD */}
+                            {/* ADD EXPENSE */}
 
                             <Link
-                                to="/dashboard"
+                                to="/add-expense"
                                 className="home-menu-link"
                                 onClick={closeMenu}
                             >
 
                                 <span className="home-menu-icon">
-                                    📊
+                                    ➕
                                 </span>
 
                                 <span className="home-menu-link-text">
 
                                     <strong>
-                                        Dashboard
+                                        Add Expense
                                     </strong>
 
                                     <small>
-                                        View spending overview
+                                        Record a new expense
                                     </small>
 
                                 </span>
@@ -253,26 +251,26 @@ function Home({ theme, setTheme }) {
                             </Link>
 
 
-                            {/* ADD EXPENSE */}
+                            {/* DASHBOARD */}
 
                             <Link
-                                to="/add-expense"
+                                to="/dashboard"
                                 className="home-menu-link"
                                 onClick={closeMenu}
                             >
 
                                 <span className="home-menu-icon">
-                                    ➕
+                                    📊
                                 </span>
 
                                 <span className="home-menu-link-text">
 
                                     <strong>
-                                        Add Expense
+                                        Dashboard
                                     </strong>
 
                                     <small>
-                                        Record a new expense
+                                        View spending overview
                                     </small>
 
                                 </span>
@@ -288,6 +286,7 @@ function Home({ theme, setTheme }) {
                             {/* THEME */}
 
                             <button
+                                type="button"
                                 className="home-theme-button"
                                 onClick={toggleTheme}
                             >
@@ -299,7 +298,6 @@ function Home({ theme, setTheme }) {
                                         : "🌙"}
 
                                 </span>
-
 
                                 <span className="home-menu-link-text">
 
@@ -317,7 +315,6 @@ function Home({ theme, setTheme }) {
 
                                 </span>
 
-
                                 <span className="home-theme-status">
 
                                     {theme === "dark"
@@ -328,7 +325,6 @@ function Home({ theme, setTheme }) {
 
                             </button>
 
-
                         </div>
 
                     )}
@@ -336,6 +332,7 @@ function Home({ theme, setTheme }) {
                 </div>
 
             </header>
+
 
 
             {/* =====================================
@@ -365,109 +362,154 @@ function Home({ theme, setTheme }) {
                     <div className="home-hero-buttons">
 
                         <Link
-                            to="/dashboard"
+                            to="/add-expense"
                             className="home-primary-button"
                         >
-                            Get Started
+                            Add Your First Expense
                             <span>→</span>
                         </Link>
 
+{/*                         <Link */}
+{/*                             to="/expenses" */}
+{/*                             className="home-secondary-button" */}
+{/*                         > */}
+{/*                             View Expenses */}
+{/*                         </Link> */}
 
-                        <Link
-                            to="/expenses"
-                            className="home-secondary-button"
-                        >
-                            View Expenses
-                        </Link>
+                    </div>
+
+
+                    {/* QUICK INFO */}
+
+                    <div className="home-quick-info">
+
+                        <div>
+                            <strong>
+                                Simple
+                            </strong>
+
+                            <span>
+                                Easy to use
+                            </span>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Organized
+                            </strong>
+
+                            <span>
+                                All expenses together
+                            </span>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Insightful
+                            </strong>
+
+                            <span>
+                                Understand spending
+                            </span>
+                        </div>
 
                     </div>
 
                 </div>
 
 
-                {/* =================================
-                    PREVIEW
-                ================================= */}
+                {/* PREVIEW CARD */}
 
-                <div className="home-preview">
+                <div className="home-preview-wrapper">
 
-                    <div className="preview-header">
+                    <div className="home-preview-glow"></div>
 
-                        <div>
+                    <div className="home-preview">
 
-                            <span>
-                                THIS MONTH
-                            </span>
+                        <div className="preview-top">
 
-                            <strong>
-                                ₹12,450
-                            </strong>
+                            <div>
+
+                                <span>
+                                    THIS MONTH
+                                </span>
+
+                                <strong>
+                                    ₹12,450
+                                </strong>
+
+                            </div>
+
+                            <div className="preview-icon">
+                                💰
+                            </div>
+
+                        </div>
+
+                        <div className="preview-label">
+                            Total Spending
+                        </div>
+
+
+                        <div className="preview-progress">
+
+                            <span></span>
 
                         </div>
 
 
-                        <div className="preview-icon">
-                            💰
-                        </div>
+                        <div className="preview-items">
 
-                    </div>
+                            <div className="preview-item">
 
+                                <span>
+                                    🍔 Food
+                                </span>
 
-                    <div className="preview-label">
-                        Total Spending
-                    </div>
+                                <strong>
+                                    ₹4,200
+                                </strong>
 
-
-                    <div className="preview-items">
-
-                        <div className="preview-item">
-
-                            <span>
-                                🍔 Food
-                            </span>
-
-                            <strong>
-                                ₹4,200
-                            </strong>
-
-                        </div>
+                            </div>
 
 
-                        <div className="preview-item">
+                            <div className="preview-item">
 
-                            <span>
-                                🚗 Transport
-                            </span>
+                                <span>
+                                    🚗 Transport
+                                </span>
 
-                            <strong>
-                                ₹2,100
-                            </strong>
+                                <strong>
+                                    ₹2,100
+                                </strong>
 
-                        </div>
-
-
-                        <div className="preview-item">
-
-                            <span>
-                                🧾 Bills
-                            </span>
-
-                            <strong>
-                                ₹3,500
-                            </strong>
-
-                        </div>
+                            </div>
 
 
-                        <div className="preview-item">
+                            <div className="preview-item">
 
-                            <span>
-                                🛍️ Shopping
-                            </span>
+                                <span>
+                                    🧾 Bills
+                                </span>
 
-                            <strong>
-                                ₹2,650
-                            </strong>
+                                <strong>
+                                    ₹3,500
+                                </strong>
+
+                            </div>
+
+
+                            <div className="preview-item">
+
+                                <span>
+                                    🛍️ Shopping
+                                </span>
+
+                                <strong>
+                                    ₹2,650
+                                </strong>
+
+                            </div>
 
                         </div>
 
@@ -476,6 +518,7 @@ function Home({ theme, setTheme }) {
                 </div>
 
             </section>
+
 
 
             {/* =====================================
@@ -581,6 +624,7 @@ function Home({ theme, setTheme }) {
             </section>
 
 
+
             {/* =====================================
                 HOW IT WORKS
             ===================================== */}
@@ -667,6 +711,7 @@ function Home({ theme, setTheme }) {
             </section>
 
 
+
             {/* =====================================
                 DASHBOARD PREVIEW
             ===================================== */}
@@ -691,7 +736,6 @@ function Home({ theme, setTheme }) {
                             Get a quick overview of your
                             expenses through your dashboard.
                         </p>
-
 
                         <Link
                             to="/dashboard"
@@ -764,6 +808,7 @@ function Home({ theme, setTheme }) {
             </section>
 
 
+
             {/* =====================================
                 WHY TRACKTALLY
             ===================================== */}
@@ -831,6 +876,7 @@ function Home({ theme, setTheme }) {
             </section>
 
 
+
             {/* =====================================
                 FINAL CTA
             ===================================== */}
@@ -850,16 +896,16 @@ function Home({ theme, setTheme }) {
                     Start tracking your expenses with TrackTally.
                 </p>
 
-
                 <Link
-                    to="/dashboard"
+                    to="/add-expense"
                     className="home-primary-button"
                 >
-                    Go to Dashboard
+                    Start Tracking
                     <span>→</span>
                 </Link>
 
             </section>
+
 
 
             {/* =====================================

@@ -1,0 +1,84 @@
+/* =========================================================
+   QUICK INFO
+   ========================================================= */
+
+.home-quick-info {
+    width: 100%;
+    max-width: 650px;
+    margin-top: 34px;
+    padding-top: 18px;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+
+    border-top: 1px solid var(--home-border);
+}
+
+.home-quick-info > div {
+    min-width: 0;
+}
+
+.home-quick-info strong {
+    display: block;
+    margin-bottom: 5px;
+
+    color: var(--home-text);
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.home-quick-info span {
+    display: block;
+
+    color: var(--home-text-muted);
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 6px;
+
+    white-space: nowrap;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 560px) {
+
+    .home-quick-info {
+        gap: 14px;
+    }
+
+    .home-quick-info strong {
+        font-size: 11px;
+    }
+
+    .home-quick-info span {
+        font-size: 9px;
+    }
+
+}
+
+
+/* VERY SMALL SCREEN */
+
+@media (max-width: 380px) {
+
+    .home-quick-info {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .home-quick-info > div + div {
+        padding-top: 12px;
+        border-top: 1px solid var(--home-border);
+    }
+
+    .home-quick-info strong,
+    .home-quick-info span {
+        white-space: normal;
+    }
+
+}

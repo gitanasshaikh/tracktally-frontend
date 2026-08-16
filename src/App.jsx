@@ -9,6 +9,7 @@ import {
 
 import "./styles/App.css";
 import "./styles/Feedback.css";
+import "./styles/Home.css";
 
 import AdminLogin from "./pages/AdminLogin";
 

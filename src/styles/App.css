@@ -10733,3 +10733,286 @@ body.dark .dashboard-refreshing,
     border-color: var(--border-color, #374151);
     color: var(--text-color, #f3f4f6);
 }
+
+
+
+ /* =========================================================
+   TRACKTALLY NAVBAR - FINAL OVERRIDE
+   ========================================================= */
+
+
+/* =========================================================
+   MAIN MENU
+   ========================================================= */
+
+.sidebar-section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+
+/* MENU LABEL */
+
+.sidebar-section .sidebar-label {
+    order: 0 !important;
+    margin-bottom: 4px !important;
+}
+
+
+/* =========================================================
+   MENU ITEMS ORDER
+   ========================================================= */
+
+.sidebar-section .sidebar-link[href="/"] {
+    order: 1 !important;
+}
+
+.sidebar-section .sidebar-link[href="/add-expense"] {
+    order: 2 !important;
+}
+
+.sidebar-section .sidebar-link[href="/expenses"] {
+    order: 3 !important;
+}
+
+.sidebar-section .sidebar-link[href="/dashboard"] {
+    order: 4 !important;
+}
+
+
+/* =========================================================
+   ALL NAV ITEMS
+   ========================================================= */
+
+.sidebar-section .sidebar-link,
+.sidebar-bottom .sidebar-link,
+.sidebar-bottom .theme-button {
+
+    width: 100% !important;
+
+    min-height: 46px !important;
+
+    box-sizing: border-box !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 12px !important;
+
+    padding: 10px 14px !important;
+
+    margin: 0 !important;
+
+    border-radius: 10px !important;
+
+    background: transparent !important;
+
+    border: 1px solid transparent !important;
+
+    color: inherit !important;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease !important;
+
+}
+
+
+/* =========================================================
+   REMOVE OLD BLUE ACTIVE BACKGROUND
+   ========================================================= */
+
+.sidebar-section .sidebar-link.active,
+.sidebar-bottom .sidebar-link.active {
+
+    background: transparent !important;
+
+    color: inherit !important;
+
+    box-shadow: none !important;
+
+}
+
+
+/* =========================================================
+   ACTIVE ITEM = BLUE BORDER ONLY
+   ========================================================= */
+
+.sidebar-section .sidebar-link.active,
+.sidebar-bottom .sidebar-link.active {
+
+    border: 1px solid #6366f1 !important;
+
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.sidebar-section .sidebar-link:hover,
+.sidebar-bottom .sidebar-link:hover,
+.sidebar-bottom .theme-button:hover {
+
+    background: rgba(99, 102, 241, 0.06) !important;
+
+    border-color: rgba(99, 102, 241, 0.35) !important;
+
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.sidebar-icon {
+
+    width: 22px !important;
+
+    min-width: 22px !important;
+
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+}
+
+
+/* =========================================================
+   BOTTOM SECTION
+   Feedback → Dark Mode
+   ========================================================= */
+
+.sidebar-bottom {
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 10px !important;
+
+    width: 100% !important;
+
+}
+
+
+/* Feedback */
+
+.sidebar-bottom .sidebar-link[href="/feedback"] {
+
+    order: 1 !important;
+
+}
+
+
+/* Dark Mode */
+
+.sidebar-bottom .theme-button {
+
+    order: 2 !important;
+
+    cursor: pointer !important;
+
+    font-family: inherit !important;
+
+    font-size: inherit !important;
+
+    text-align: left !important;
+
+}
+
+
+/* =========================================================
+   DARK MODE ACTIVE / HOVER
+   ========================================================= */
+
+.sidebar-bottom .theme-button {
+
+    border: 1px solid transparent !important;
+
+}
+
+.sidebar-bottom .theme-button:hover {
+
+    border-color: rgba(99, 102, 241, 0.35) !important;
+
+}
+
+
+/* =========================================================
+   SPACING BETWEEN MAIN MENU AND BOTTOM
+   ========================================================= */
+
+.sidebar-spacer {
+
+    flex: 1 1 auto !important;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .sidebar-section {
+        gap: 8px !important;
+    }
+
+    .sidebar-bottom {
+        gap: 8px !important;
+    }
+
+    .sidebar-section .sidebar-link,
+    .sidebar-bottom .sidebar-link,
+    .sidebar-bottom .theme-button {
+
+        min-height: 44px !important;
+
+        padding: 9px 12px !important;
+
+    }
+
+}
+
+/* =========================================================
+   FEEDBACK + DARK MODE POSITION FIX
+   ========================================================= */
+
+/* Spacer ko space push karne se roko */
+.sidebar-spacer {
+    flex: 0 0 auto !important;
+    height: 18px !important;
+}
+
+
+/* Feedback + Dark Mode ko normal menu flow mein lao */
+.sidebar-bottom {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 10px !important;
+
+    width: 100% !important;
+}
+
+
+/* Feedback */
+.sidebar-bottom .sidebar-link[href="/feedback"] {
+    order: 1 !important;
+}
+
+
+/* Dark Mode */
+.sidebar-bottom .theme-button {
+    order: 2 !important;
+}

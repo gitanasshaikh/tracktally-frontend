@@ -9,7 +9,6 @@ import {
 } from "react";
 
 
-
 function Navbar({
     theme,
     setTheme
@@ -261,13 +260,13 @@ function Navbar({
 
 
                     {/* =================================
-                        DASHBOARD
+                        ADD EXPENSE
                     ================================= */}
 
                     <Link
-                        to="/dashboard"
+                        to="/add-expense"
                         className={
-                            location.pathname === "/dashboard"
+                            location.pathname === "/add-expense"
                                 ? "sidebar-link active"
                                 : "sidebar-link"
                         }
@@ -277,11 +276,11 @@ function Navbar({
                     >
 
                         <span className="sidebar-icon">
-                            📊
+                            ➕
                         </span>
 
                         <span>
-                            Dashboard
+                            Add Expense
                         </span>
 
                     </Link>
@@ -317,13 +316,13 @@ function Navbar({
 
 
                     {/* =================================
-                        ADD EXPENSE
+                        DASHBOARD
                     ================================= */}
 
                     <Link
-                        to="/add-expense"
+                        to="/dashboard"
                         className={
-                            location.pathname === "/add-expense"
+                            location.pathname === "/dashboard"
                                 ? "sidebar-link active"
                                 : "sidebar-link"
                         }
@@ -333,11 +332,11 @@ function Navbar({
                     >
 
                         <span className="sidebar-icon">
-                            ➕
+                            📊
                         </span>
 
                         <span>
-                            Add Expense
+                            Dashboard
                         </span>
 
                     </Link>
@@ -355,10 +354,43 @@ function Navbar({
 
 
                 {/* =================================
-                    THEME BUTTON
+                    SIDEBAR BOTTOM
                 ================================= */}
 
                 <div className="sidebar-bottom">
+
+
+                    {/* =================================
+                        FEEDBACK
+                    ================================= */}
+
+                    <Link
+                        to="/feedback"
+                        className={
+                            location.pathname === "/feedback"
+                                ? "sidebar-link active"
+                                : "sidebar-link"
+                        }
+                        onClick={
+                            closeMobileMenu
+                        }
+                    >
+
+                        <span className="sidebar-icon">
+                            💬
+                        </span>
+
+                        <span>
+                            Feedback
+                        </span>
+
+                    </Link>
+
+
+
+                    {/* =================================
+                        DARK MODE
+                    ================================= */}
 
                     <button
                         type="button"
@@ -386,36 +418,14 @@ function Navbar({
                         </span>
 
 
-{/*                         <span className="theme-arrow"> */}
-{/*                             → */}
-{/*                         </span> */}
+                        {/*
+                        <span className="theme-arrow">
+                            →
+                        </span>
+                        */}
 
                     </button>
 
-
-                    {/* =================================
-                        FEEDBACK
-                    ================================= */}
-
-                    <Link
-                        to="/feedback"
-                        className={
-                            location.pathname === "/feedback"
-                                ? "sidebar-link active"
-                                : "sidebar-link"
-                        }
-                        onClick={closeMobileMenu}
-                    >
-
-                        <span className="sidebar-icon">
-                            💬
-                        </span>
-
-                        <span>
-                            Feedback
-                        </span>
-
-                    </Link>
 
                 </div>
 
