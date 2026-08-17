@@ -566,11 +566,11 @@ function ExpenseList({ onEdit }) {
                  <div className="expense-date-filter">
 
                      {/* Custom date label */}
-                     {!date && (
-                         <span className="expense-date-label">
-                             Select date
-                         </span>
-                     )}
+{/*                      {!date && ( */}
+{/*                          <span className="expense-date-label"> */}
+{/*                              Select date */}
+{/*                          </span> */}
+{/*                      )} */}
 
                      {/* Date input */}
                      <input
