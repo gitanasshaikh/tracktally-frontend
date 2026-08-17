@@ -551,19 +551,50 @@ function ExpenseList({ onEdit }) {
                         </option>
                     </select>
 
-                    <input
-                        type="date"
-                        value={date}
-                        onChange={(e) =>
-                            filterByDate(
-                                e.target.value
-                            )
-                        }
+                    {/* DATE FILTER */}
+                    <div
                         style={{
-                            color: "#ffffff",
-                            colorScheme: "dark"
+                            position: "relative",
+                            width: "100%"
                         }}
-                    />
+                    >
+                        {!date && (
+                            <span
+                                style={{
+                                    position: "absolute",
+                                    left: "14px",
+                                    top: "50%",
+                                    transform:
+                                        "translateY(-50%)",
+                                    color: "#9ca3af",
+                                    fontSize: "14px",
+                                    pointerEvents: "none",
+                                    zIndex: 1
+                                }}
+                            >
+                                DD-MM-YYYY
+                            </span>
+                        )}
+
+                        <input
+                            type="date"
+                            value={date}
+                            onChange={(e) =>
+                                filterByDate(
+                                    e.target.value
+                                )
+                            }
+                            style={{
+                                color: "#ffffff",
+                                colorScheme: "dark",
+                                width: "100%",
+                                position: "relative",
+                                zIndex: 2,
+                                backgroundColor:
+                                    "transparent"
+                            }}
+                        />
+                    </div>
 
                     <button
                         className="clear-filter-button"

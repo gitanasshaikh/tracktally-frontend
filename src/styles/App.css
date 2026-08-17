@@ -11016,3 +11016,119 @@ body.dark .dashboard-refreshing,
 .sidebar-bottom .theme-button {
     order: 2 !important;
 }
+
+
+/* =====================================================
+   EXPENSE DATE FILTER
+   ===================================================== */
+
+.expense-date-input {
+    /* Normal date input appearance */
+    width: 100%;
+
+    /* Text visible rahe */
+    color: #ffffff;
+
+    /* Dark background */
+    background: #111827;
+
+    /* Border */
+    border: 1px solid #374151;
+
+    /* Rounded corners */
+    border-radius: 8px;
+
+    /* Space inside input */
+    padding: 10px 12px;
+
+    /* Font */
+    font-size: 14px;
+
+    /* Make sure text is visible */
+    opacity: 1;
+
+    /* Browser date controls dark theme */
+    color-scheme: dark;
+
+    /* Prevent weird mobile sizing */
+    min-height: 42px;
+}
+
+
+/* =====================================================
+   DATE PLACEHOLDER / EMPTY DATE TEXT
+   ===================================================== */
+
+/*
+   Jab date select nahi ki hoti,
+   browser ka DD-MM-YYYY / placeholder visible rahe.
+*/
+
+.expense-date-input:invalid {
+    color: #9ca3af;
+}
+
+
+/* =====================================================
+   SELECTED DATE
+   ===================================================== */
+
+/*
+   Jab user date select kar leta hai,
+   selected date clearly visible rahe.
+*/
+
+.expense-date-input:valid {
+    color: #ffffff;
+}
+
+
+/* =====================================================
+   MOBILE DATE INPUT
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+    .expense-date-input {
+        /*
+         * Mobile screen par input ko proper
+         * readable height dete hain.
+         */
+        min-height: 44px;
+
+        /*
+         * Text readable rahe.
+         */
+        font-size: 14px;
+
+        /*
+         * Mobile browser ke native date picker
+         * ke liye dark color scheme.
+         */
+        color-scheme: dark;
+
+        /*
+         * Input ki width container ke according.
+         */
+        width: 100%;
+    }
+}
+
+
+/* =====================================================
+   SMALL PHONE SCREEN
+   ===================================================== */
+
+@media (max-width: 480px) {
+
+    .expense-date-input {
+        /*
+         * Small phone par thoda compact.
+         */
+        min-height: 42px;
+
+        font-size: 13px;
+
+        padding: 9px 10px;
+    }
+}
