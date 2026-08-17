@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -122,20 +122,43 @@ function Dashboard() {
         const loadDashboard = async () => {
 
             setError("");
-
             setRefreshing(true);
 
             try {
 
                 // ========================================
-                // TOTAL
+                // LOAD ALL APIs IN PARALLEL
                 // ========================================
 
-                const totalResponse =
-                    await fetch(
-                        `${API}/total`
-                    );
+                const [
+                    totalResponse,
+                    countResponse,
+                    categoryResponse,
+                    yearlyResponse
+                ] = await Promise.all([
 
+                    fetch(
+                        `${API}/total`
+                    ),
+
+                    fetch(
+                        `${API}/count`
+                    ),
+
+                    fetch(
+                        `${API}/category-total`
+                    ),
+
+                    fetch(
+                        `${API}/yearly-total/${currentYear}`
+                    )
+
+                ]);
+
+
+                // ========================================
+                // CHECK RESPONSES
+                // ========================================
 
                 if (!totalResponse.ok) {
 
@@ -145,21 +168,6 @@ function Dashboard() {
 
                 }
 
-
-                const total =
-                    await totalResponse.json();
-
-
-                // ========================================
-                // COUNT
-                // ========================================
-
-                const countResponse =
-                    await fetch(
-                        `${API}/count`
-                    );
-
-
                 if (!countResponse.ok) {
 
                     throw new Error(
@@ -167,21 +175,6 @@ function Dashboard() {
                     );
 
                 }
-
-
-                const count =
-                    await countResponse.json();
-
-
-                // ========================================
-                // CATEGORY TOTAL
-                // ========================================
-
-                const categoryResponse =
-                    await fetch(
-                        `${API}/category-total`
-                    );
-
 
                 if (!categoryResponse.ok) {
 
@@ -191,21 +184,6 @@ function Dashboard() {
 
                 }
 
-
-                const categoryResult =
-                    await categoryResponse.json();
-
-
-                // ========================================
-                // YEARLY MONTHLY TOTAL
-                // ========================================
-
-                const yearlyResponse =
-                    await fetch(
-                        `${API}/yearly-total/${currentYear}`
-                    );
-
-
                 if (!yearlyResponse.ok) {
 
                     throw new Error(
@@ -214,6 +192,19 @@ function Dashboard() {
 
                 }
 
+
+                // ========================================
+                // READ ALL RESPONSES
+                // ========================================
+
+                const total =
+                    await totalResponse.json();
+
+                const count =
+                    await countResponse.json();
+
+                const categoryResult =
+                    await categoryResponse.json();
 
                 const yearlyResult =
                     await yearlyResponse.json();
@@ -319,6 +310,10 @@ function Dashboard() {
                 }
 
 
+                // ========================================
+                // FORMAT MONTHLY DATA
+                // ========================================
+
                 const formattedMonthlyData =
                     months.map(
                         (month, index) => ({
@@ -373,7 +368,6 @@ function Dashboard() {
 
                 }
 
-
             } finally {
 
                 if (!cancelled) {
@@ -389,8 +383,16 @@ function Dashboard() {
         };
 
 
+        // ========================================
+        // LOAD DASHBOARD
+        // ========================================
+
         loadDashboard();
 
+
+        // ========================================
+        // CLEANUP
+        // ========================================
 
         return () => {
 
