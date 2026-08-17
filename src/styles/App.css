@@ -11019,116 +11019,145 @@ body.dark .dashboard-refreshing,
 
 
 /* =====================================================
-   EXPENSE DATE FILTER
+   DATE FILTER — FINAL OVERRIDE
+   ===================================================== */
+
+.expense-date-filter {
+    position: relative !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+
+/* =====================================================
+   DATE PLACEHOLDER / LABEL
+   ===================================================== */
+
+.expense-date-label {
+    display: block !important;
+
+    position: absolute !important;
+    left: 14px !important;
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+
+    color: #9ca3af !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+
+    white-space: nowrap !important;
+
+    pointer-events: none !important;
+
+    z-index: 1 !important;
+}
+
+
+/* =====================================================
+   DATE INPUT
    ===================================================== */
 
 .expense-date-input {
-    /* Normal date input appearance */
-    width: 100%;
+    width: 100% !important;
+    min-height: 42px !important;
 
-    /* Text visible rahe */
-    color: #ffffff;
+    padding: 10px 12px !important;
 
-    /* Dark background */
-    background: #111827;
+    border: 1px solid #374151 !important;
+    border-radius: 8px !important;
 
-    /* Border */
-    border: 1px solid #374151;
+    background: #111827 !important;
 
-    /* Rounded corners */
-    border-radius: 8px;
+    color: #ffffff !important;
+    color-scheme: dark !important;
 
-    /* Space inside input */
-    padding: 10px 12px;
+    font-size: 14px !important;
 
-    /* Font */
-    font-size: 14px;
-
-    /* Make sure text is visible */
-    opacity: 1;
-
-    /* Browser date controls dark theme */
-    color-scheme: dark;
-
-    /* Prevent weird mobile sizing */
-    min-height: 42px;
+    position: relative !important;
+    z-index: 2 !important;
 }
 
 
 /* =====================================================
-   DATE PLACEHOLDER / EMPTY DATE TEXT
+   IMPORTANT:
+   Empty date input ka native text/icon transparent
+   rahega, custom DD-MM-YYYY visible rahega
    ===================================================== */
 
-/*
-   Jab date select nahi ki hoti,
-   browser ka DD-MM-YYYY / placeholder visible rahe.
-*/
-
-.expense-date-input:invalid {
-    color: #9ca3af;
+.expense-date-input:not(:valid) {
+    color: transparent !important;
 }
 
 
 /* =====================================================
-   SELECTED DATE
+   DATE SELECT HONE KE BAAD
    ===================================================== */
-
-/*
-   Jab user date select kar leta hai,
-   selected date clearly visible rahe.
-*/
 
 .expense-date-input:valid {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 
 /* =====================================================
-   MOBILE DATE INPUT
+   CALENDAR ICON
+   ===================================================== */
+
+.expense-date-input::-webkit-calendar-picker-indicator {
+    filter: invert(1) !important;
+    opacity: 0.85 !important;
+    cursor: pointer !important;
+}
+
+
+/* =====================================================
+   MOBILE
    ===================================================== */
 
 @media (max-width: 768px) {
 
+    .expense-date-filter {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .expense-date-label {
+        display: block !important;
+
+        left: 14px !important;
+        top: 50% !important;
+
+        font-size: 13px !important;
+    }
+
     .expense-date-input {
-        /*
-         * Mobile screen par input ko proper
-         * readable height dete hain.
-         */
-        min-height: 44px;
+        width: 100% !important;
+        min-height: 44px !important;
 
-        /*
-         * Text readable rahe.
-         */
-        font-size: 14px;
-
-        /*
-         * Mobile browser ke native date picker
-         * ke liye dark color scheme.
-         */
-        color-scheme: dark;
-
-        /*
-         * Input ki width container ke according.
-         */
-        width: 100%;
+        font-size: 14px !important;
     }
 }
 
 
 /* =====================================================
-   SMALL PHONE SCREEN
+   SMALL PHONE
    ===================================================== */
 
 @media (max-width: 480px) {
 
+    .expense-date-filter {
+        width: 100% !important;
+    }
+
+    .expense-date-label {
+        left: 13px !important;
+        font-size: 12px !important;
+    }
+
     .expense-date-input {
-        /*
-         * Small phone par thoda compact.
-         */
-        min-height: 42px;
+        width: 100% !important;
+        min-height: 42px !important;
 
-        font-size: 13px;
-
-        padding: 9px 10px;
+        font-size: 13px !important;
     }
 }

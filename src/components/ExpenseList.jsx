@@ -455,7 +455,9 @@ function ExpenseList({ onEdit }) {
     return (
         <div className="expense-list-page">
 
-            {/* HEADER */}
+            {/* ========================================
+                HEADER
+            ======================================== */}
 
             <div className="expense-list-header">
 
@@ -486,7 +488,9 @@ function ExpenseList({ onEdit }) {
 
             </div>
 
-            {/* SEARCH + FILTERS */}
+            {/* ========================================
+                SEARCH + FILTERS
+            ======================================== */}
 
             <div className="expense-controls">
 
@@ -522,6 +526,10 @@ function ExpenseList({ onEdit }) {
 
                 <div className="expense-filters">
 
+                    {/* ========================================
+                        CATEGORY FILTER
+                    ======================================== */}
+
                     <select
                         value={category}
                         onChange={(e) =>
@@ -551,50 +559,36 @@ function ExpenseList({ onEdit }) {
                         </option>
                     </select>
 
-                    {/* DATE FILTER */}
-                    <div
-                        style={{
-                            position: "relative",
-                            width: "100%"
-                        }}
-                    >
-                        {!date && (
-                            <span
-                                style={{
-                                    position: "absolute",
-                                    left: "14px",
-                                    top: "50%",
-                                    transform:
-                                        "translateY(-50%)",
-                                    color: "#9ca3af",
-                                    fontSize: "14px",
-                                    pointerEvents: "none",
-                                    zIndex: 1
-                                }}
-                            >
-                                DD-MM-YYYY
-                            </span>
-                        )}
+                 {/* ========================================
+                     DATE FILTER
+                 ======================================== */}
 
-                        <input
-                            type="date"
-                            value={date}
-                            onChange={(e) =>
-                                filterByDate(
-                                    e.target.value
-                                )
-                            }
-                            style={{
-                                color: "#ffffff",
-                                colorScheme: "dark",
-                                width: "100%",
-                                position: "relative",
-                                zIndex: 2,
-                                backgroundColor:
-                                    "transparent"
-                            }}
-                        />
-                    </div>
+                 <div className="expense-date-filter">
+
+                     {/* Custom date label */}
+                     {!date && (
+                         <span className="expense-date-label">
+                             Select date
+                         </span>
+                     )}
+
+                     {/* Date input */}
+                     <input
+                         type="date"
+                         value={date}
+                         onChange={(e) =>
+                             filterByDate(e.target.value)
+                         }
+                         className={`expense-date-input ${
+                             date ? "has-date" : ""
+                         }`}
+                     />
+
+                 </div>
+
+                    {/* ========================================
+                        CLEAR BUTTON
+                    ======================================== */}
 
                     <button
                         className="clear-filter-button"
@@ -607,7 +601,9 @@ function ExpenseList({ onEdit }) {
 
             </div>
 
-            {/* ERROR */}
+            {/* ========================================
+                ERROR
+            ======================================== */}
 
             {error && (
                 <div className="expense-error">
@@ -615,7 +611,9 @@ function ExpenseList({ onEdit }) {
                 </div>
             )}
 
-            {/* CONTENT */}
+            {/* ========================================
+                CONTENT
+            ======================================== */}
 
             <div className="expense-table-card">
 
@@ -803,7 +801,9 @@ function ExpenseList({ onEdit }) {
 
             </div>
 
-            {/* EXPORT SECTION */}
+            {/* ========================================
+                EXPORT SECTION
+            ======================================== */}
 
             <div className="expense-export-section">
 
@@ -835,7 +835,9 @@ function ExpenseList({ onEdit }) {
 
             </div>
 
-            {/* EXPORT MODAL */}
+            {/* ========================================
+                EXPORT MODAL
+            ======================================== */}
 
             {exportModalOpen && (
 
@@ -1273,7 +1275,9 @@ function ExpenseList({ onEdit }) {
 
             )}
 
-            {/* DELETE CONFIRMATION MODAL */}
+            {/* ========================================
+                DELETE CONFIRMATION MODAL
+            ======================================== */}
 
             {deleteModalOpen && (
 
