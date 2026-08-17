@@ -559,6 +559,10 @@ function ExpenseList({ onEdit }) {
                                 e.target.value
                             )
                         }
+                        style={{
+                            color: "#ffffff",
+                            colorScheme: "dark"
+                        }}
                     />
 
                     <button
